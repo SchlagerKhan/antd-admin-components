@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "amd",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"declaration": true,
+		"sourceMap": true,
+		"outFile": "./lib/index.js",
+		"jsx": "react",
+		"lib": ["esnext", "dom"],
+		"baseUrl": ".",
+		"paths": {
+			"*": ["./*", "./src/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "lib"]
+}
