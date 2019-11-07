@@ -36,5 +36,3 @@ export function RegularForm() {
 		</Wrapper>
 	);
 }
-
-export default { title: 'Form' };

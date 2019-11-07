@@ -1,6 +1,7 @@
 import { omit } from 'lodash';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Input } from 'antd';
 
@@ -26,4 +27,5 @@ export function FormTextField(props) {
 FormTextField.propTypes = {
 	...BasicFieldPropTypes,
 	...Input.propTypes,
+	placeholder: PropTypes.string,
 };

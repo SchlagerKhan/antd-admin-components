@@ -47,5 +47,3 @@ export function ArrayForm() {
 		</Wrapper>
 	);
 }
-
-export default { title: 'Form' };

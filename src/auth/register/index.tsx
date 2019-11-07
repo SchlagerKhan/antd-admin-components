@@ -1,3 +1,2 @@
-export function Register() {
-	return null;
-}
+export * from './form';
+export * from './card';
