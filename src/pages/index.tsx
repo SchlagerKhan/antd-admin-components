@@ -1,1 +1,3 @@
-export function Pages() {}
+export function Pages() {
+	return null;
+}

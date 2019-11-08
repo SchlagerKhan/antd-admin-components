@@ -1,0 +1,66 @@
+import { noop, identity } from 'lodash';
+
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+
+import { Layout, Header, Menu, Content, MenuItem } from '../../layout';
+
+export interface PageItem extends MenuItem {
+	component: any;
+}
+
+type PageItems = PageItem[];
+
+export interface AppPageProps {
+	items: PageItems;
+
+	renderHeader?: () => JSX.Element;
+	renderMenu: (items: PageItems) => JSX.Element;
+	renderContent?: (routes: JSX.Element, items: PageItems) => JSX.Element;
+	renderRoutes: (items: PageItems) => JSX.Element;
+}
+
+/* RENDERING */
+function defaultRenderHeader() {
+	return <p>Header</p>;
+}
+
+function defaultRenderMenu(items) {
+	return <Menu items={items} />;
+}
+
+function defaultRenderRoutes(items: PageItems) {
+	return (
+		<Switch>
+			{items.map((item) => (
+				<Route key={item.path} {...item} />
+			))}
+		</Switch>
+	);
+}
+
+function defaultRenderContent(routes) {
+	return routes;
+}
+
+export function AppPage(props: AppPageProps) {
+	const { items, renderHeader, renderMenu, renderContent, renderRoutes } = props;
+	const routes = renderRoutes(items);
+
+	return (
+		<Layout>
+			<Header>{renderHeader()}</Header>
+			<Layout>
+				{renderMenu(items)}
+				<Content>{renderContent(routes, items)}</Content>
+			</Layout>
+		</Layout>
+	);
+}
+
+AppPage.defaultProps = {
+	renderHeader: defaultRenderHeader,
+	renderMenu: defaultRenderMenu,
+	renderContent: defaultRenderContent,
+	renderRoutes: defaultRenderRoutes,
+};
