@@ -1,5 +1,3 @@
-import { noop, identity } from 'lodash';
-
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
@@ -25,7 +23,7 @@ function defaultRenderHeader() {
 	return <p>Header</p>;
 }
 
-function defaultRenderMenu(items) {
+function defaultRenderMenu(items: PageItems) {
 	return <Menu items={items} />;
 }
 
@@ -39,7 +37,7 @@ function defaultRenderRoutes(items: PageItems) {
 	);
 }
 
-function defaultRenderContent(routes) {
+function defaultRenderContent(routes: JSX.Element, items: PageItems) {
 	return routes;
 }
 

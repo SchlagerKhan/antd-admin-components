@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Card } from '../helpers';
+import { Card, AuthFormTemplateProps } from '../helpers';
 import { RegisterForm } from './form';
+
+export interface RegisterCardProps {
+	title?: AuthFormTemplateProps['title'];
+	onRegister: AuthFormTemplateProps['onAction'];
+}
 
 export function RegisterCard(props) {
 	const { title, onRegister } = props;

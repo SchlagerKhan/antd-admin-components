@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Card } from '../helpers';
+import { Card, AuthFormTemplateProps } from '../helpers';
 import { LoginForm } from './form';
 
-export function LoginCard(props) {
+export interface LoginCardProps {
+	title?: AuthFormTemplateProps['title'];
+	onLogin: AuthFormTemplateProps['onAction'];
+}
+
+export function LoginCard(props: LoginCardProps) {
 	const { title, onLogin } = props;
 
 	return (
@@ -13,8 +18,3 @@ export function LoginCard(props) {
 		</Card>
 	);
 }
-
-LoginCard.propTypes = {
-	title: PropTypes.string.isRequired,
-	onLogin: PropTypes.func.isRequired,
-};

@@ -8,7 +8,14 @@ import useForm from 'react-hook-form';
 import { Form, FormTextField } from '../../form';
 import { renderTitle, SubmitButton } from './components';
 
-function createOnSubmit(props, form, setLoading) {
+export interface AuthFormTemplateProps {
+	title: string;
+	buttonText: string;
+	onAction: (values: any) => void | Promise<void>;
+	onError?: (err, form) => void;
+}
+
+function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
 	const { onAction, onError } = props;
 	const { handleSubmit } = form;
 
@@ -25,7 +32,7 @@ function createOnSubmit(props, form, setLoading) {
 	});
 }
 
-export function AuthFormTemplate(props) {
+export function AuthFormTemplate(props: AuthFormTemplateProps) {
 	const { buttonText } = props;
 
 	const form = useForm();
@@ -52,13 +59,6 @@ export function AuthFormTemplate(props) {
 		</Form>
 	);
 }
-
-AuthFormTemplate.propTypes = {
-	title: PropTypes.string,
-	buttonText: PropTypes.string.isRequired,
-	onAction: PropTypes.func.isRequired,
-	onError: PropTypes.func,
-};
 
 AuthFormTemplate.defaultProps = {
 	onError: noop,
