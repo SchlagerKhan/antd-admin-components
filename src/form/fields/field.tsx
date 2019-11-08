@@ -42,7 +42,6 @@ export function FormField(props) {
 export const BasicFieldPropTypes = {
 	label: PropTypes.node,
 	name: PropTypes.string.isRequired,
-	error: PropTypes.object,
 	register: PropTypes.func,
 };
 

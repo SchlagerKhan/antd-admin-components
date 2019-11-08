@@ -1,43 +1,22 @@
+import { noop } from 'lodash';
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import useForm from 'react-hook-form';
-
-import { Form, FormTextField } from '../../form';
-import { renderTitle, SubmitButton } from '../helpers';
+import { AuthFormTemplate } from '../helpers';
 
 export function RegisterForm(props) {
-	const form = useForm();
-	const { handleSubmit, setError, errors } = form;
+	const { onRegister, ...restProps } = props;
 
-	const loadingState = useState(false);
-	const [loading, setLoading] = loadingState;
+	const templateProps = Object.assign({}, restProps, {
+		onAction: onRegister,
+		buttonText: 'Register',
+	});
 
-	async function handleRegister(values) {
-		setLoading(true);
-
-		try {
-			props.onRegister(values);
-		} catch (err) {
-			setError('password', err.toString(), 'User already exists');
-			setLoading(false);
-		}
-	}
-	const onSubmit = handleSubmit(handleRegister);
-
-	return (
-		<Form form={form} onSubmit={onSubmit}>
-			{renderTitle(props)}
-
-			<FormTextField name='email' placeholder='Email' />
-			<FormTextField name='password' placeholder='Password' type='password' error={errors.password} />
-
-			<SubmitButton loading={loading}>Register</SubmitButton>
-		</Form>
-	);
+	return <AuthFormTemplate {...templateProps} />;
 }
-
 RegisterForm.propTypes = {
 	title: PropTypes.string,
 	onRegister: PropTypes.func.isRequired,
+	onError: PropTypes.func,
 };

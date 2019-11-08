@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-import { Card as AntCard } from 'antd';
-
 import { LoginForm } from '../login';
 import { RegisterForm } from '../register';
 import { ToggleButton } from '../helpers';
@@ -13,13 +11,19 @@ const FormWrapper = styled.div`
 	margin-bottom: 12px;
 `;
 
-export function AuthForm(props) {
+function renderForm(isLogin, props) {
 	const { onLogin, onRegister } = props;
+
+	// prettier-ignore
+	return isLogin 
+		? <LoginForm title='Login' onLogin={onLogin} /> 
+		: <RegisterForm title='Register' onRegister={onRegister} />;
+}
+
+export function AuthForm(props) {
 	const [isLogin, setIsLogin] = useState(true);
 
-	const title = isLogin ? 'Login' : 'Register';
-	const form = isLogin ? <LoginForm title='Login' onLogin={onLogin} /> : <RegisterForm title='Register' onRegister={onRegister} />;
-
+	const form = renderForm(isLogin, props);
 	const toggleText = isLogin ? 'Register' : 'Login';
 	const toggleMode = () => setIsLogin(!isLogin);
 
