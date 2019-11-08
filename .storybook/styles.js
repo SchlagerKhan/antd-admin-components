@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Button } from 'antd';
 
+/* HELPERS */
 styled.SB = {
 	Wrapper: styled.div`
 		padding: 16px;
@@ -14,11 +15,12 @@ styled.SB = {
 	Title: styled.h1``,
 };
 
-Button.defaultProps = {
-	type: 'primary',
-};
-
 const keys = Object.keys(styled.SB);
 keys.forEach((key) => {
 	styled[key] = styled(styled.SB[key]);
 });
+
+/* OTHER */
+Button.defaultProps = {
+	type: 'primary',
+};
