@@ -9,6 +9,10 @@ styled.SB = {
 	Wrapper: styled.div`
 		padding: 16px;
 	`,
+	PageWrapper: styled.div`
+		height: 600px;
+		padding: 16px;
+	`,
 	Item: styled.div`
 		margin-bottom: 16px;
 	`,
