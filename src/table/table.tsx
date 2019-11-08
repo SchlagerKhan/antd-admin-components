@@ -36,13 +36,10 @@ function renderAction(action: TableAction, item, index) {
 }
 
 function getActionColumn(props: TableProps, actions: TableAction[]) {
-	const { simpleActions, actionsWidth } = props;
-	const { onEdit, onDelete } = simpleActions;
-
 	return {
 		key: 'actions',
 		title: 'Action',
-		width: actionsWidth,
+		width: props.actionsWidth,
 		render(_, item, index) {
 			const btns = actions.map((action) => renderAction(action, item, index));
 
