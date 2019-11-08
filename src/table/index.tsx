@@ -1,1 +1,2 @@
-export function Table() {}
+export * from './table';
+export * from './editable';
