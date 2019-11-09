@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Table as AntTable, Button, Input } from 'antd';
+import { Table as AntTable, Button, Input, Icon } from 'antd';
 
 import { TableProps } from './types';
 import { getColumns } from './actions';
@@ -18,7 +18,7 @@ const Header = styled.div`
 
 const AddButton = styled(Button)``;
 
-const Search = styled(Input.Search)`
+const Search = styled(Input)`
 	width: 400px;
 `;
 
@@ -49,13 +49,20 @@ function renderAddButton(props: TableProps) {
 }
 
 function renderSearch(props: TableProps) {
-	const { onSearch } = props;
+	const { searchValue, onSearch } = props;
 
 	if (!onSearch) {
 		return null;
 	}
 
-	return <Search placeholder='Search' onSearch={onSearch} />;
+	const searchProps = {
+		placeholder: 'Search',
+		prefix: <Icon type='search' />,
+		value: searchValue,
+		onChange: (e) => onSearch(e.target.value),
+	};
+
+	return <Search {...searchProps} />;
 }
 
 export function Table(props: TableProps) {

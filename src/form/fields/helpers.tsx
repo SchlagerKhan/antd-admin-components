@@ -8,7 +8,7 @@ export function getRegister(props) {
 	return props.register || register;
 }
 
-export function withRegister(Comp) {
+export function withRegister<T>(Comp): React.FC<T> {
 	return (props) => {
 		const register = getRegister(props);
 

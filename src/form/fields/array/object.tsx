@@ -5,7 +5,12 @@ import styled from 'styled-components';
 
 import { Collapse, Icon } from 'antd';
 
-import { FormArrayField, BasicFormArrayField } from './array';
+import { FormArrayField, BasicFormArrayFieldProps } from './array';
+
+export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
+	renderElement: Function;
+	values: any[];
+}
 
 const DeleteIcon = styled(Icon).attrs({
 	type: 'delete',
@@ -41,12 +46,6 @@ export function FormObjectArrayField(props) {
 		</FormArrayField>
 	);
 }
-
-FormObjectArrayField.propTypes = {
-	...BasicFormArrayField,
-	renderElement: PropTypes.func.isRequired,
-	values: PropTypes.arrayOf(PropTypes.object.isRequired),
-};
 
 FormObjectArrayField.defaultProps = {
 	values: [],

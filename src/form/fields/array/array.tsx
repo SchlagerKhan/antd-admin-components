@@ -5,7 +5,18 @@ import styled from 'styled-components';
 
 import { Button } from 'antd';
 
-import { FormField, BasicFieldPropTypes } from '../field';
+import { FormField, BasicFieldPropTypes, BasicFormFieldProps } from '../field';
+
+export interface FormArrayFieldProps {
+	name: string;
+	label: string;
+	children: any;
+}
+
+export interface BasicFormArrayFieldProps extends BasicFormFieldProps {
+	onAdd: Function;
+	onRemove: Function;
+}
 
 const Wrapper = styled.div`
 	margin-bottom: 24px;
@@ -42,15 +53,3 @@ export function FormArrayField(props) {
 		</FormField>
 	);
 }
-
-export const BasicFormArrayField = {
-	...BasicFieldPropTypes,
-	onAdd: PropTypes.func.isRequired,
-	onRemove: PropTypes.func.isRequired,
-};
-
-FormArrayField.propTypes = {
-	name: PropTypes.string.isRequired,
-	label: BasicFieldPropTypes.label,
-	children: PropTypes.any.isRequired,
-};

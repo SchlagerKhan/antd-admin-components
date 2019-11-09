@@ -5,7 +5,11 @@ import styled from 'styled-components';
 
 import { Collapse, Icon } from 'antd';
 
-import { FormArrayField, BasicFormArrayField } from './array';
+import { FormArrayField, BasicFormArrayFieldProps } from './array';
+
+export interface FormTextArrayFieldProps extends BasicFormArrayFieldProps {
+	values: any[];
+}
 
 const Element = styled.div`
 	display: flex;
@@ -50,11 +54,6 @@ export function FormTextArrayField(props) {
 		</FormArrayField>
 	);
 }
-
-FormTextArrayField.propTypes = {
-	...BasicFormArrayField,
-	values: PropTypes.arrayOf(PropTypes.string.isRequired),
-};
 
 FormTextArrayField.defaultProps = {
 	values: [],

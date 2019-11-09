@@ -1,17 +1,16 @@
-import { omit } from 'lodash';
-
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useFormContext } from 'react-hook-form';
 
 import { Input } from 'antd';
+import { InputProps } from 'antd/lib/input';
 
-import { FormField, BasicFieldPropTypes } from './field';
+import { FormField, BasicFormFieldProps } from './field';
 import { withRegister } from './helpers';
-import { Error } from './error';
 
-export function render(props) {
+type FormTextFieldProps = InputProps & BasicFormFieldProps & {};
+
+export function render(props: FormTextFieldProps) {
 	const { name, label, register, ...inputProps } = props;
 
 	const { errors } = useFormContext();
@@ -22,17 +21,8 @@ export function render(props) {
 	return (
 		<FormField label={label} name={name}>
 			<Input ref={inputRef} name={name} {...inputProps} />
-			<Error error={error} />
 		</FormField>
 	);
 }
 
-export const FormTextField = withRegister(render);
-
-// @ts-ignore
-FormTextField.propTypes = {
-	name: PropTypes.string.isRequired,
-	...BasicFieldPropTypes,
-	...Input.propTypes,
-	placeholder: PropTypes.string,
-};
+export const FormTextField = withRegister<FormTextFieldProps>(render);

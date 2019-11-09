@@ -26,6 +26,6 @@ export interface TableProps extends AntTableProps<any> {
 
 	onAdd?: () => void;
 
-	onSearch?: (value) => void;
 	searchValue?: string;
+	onSearch?: (value) => void;
 }

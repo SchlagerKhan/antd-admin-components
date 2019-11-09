@@ -1,26 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { FormContext } from 'react-hook-form';
 
 import styled from 'styled-components';
+import { BasicFormFieldProps, FormTextField } from './fields';
+
+export interface FormFieldElement extends BasicFormFieldProps {
+	comp?: any;
+	value?: any;
+}
+
+export interface FormProps {
+	form: any;
+	fields?: FormFieldElement[];
+	onSubmit: (values: any) => void;
+	children?: any;
+}
 
 const StyledForm = styled.form`
 	display: flex;
 	flex-direction: column;
 `;
 
-export function Form({ form, ...formProps }) {
+function renderFields(props: FormProps, field: FormFieldElement) {
+	const { comp, ...fieldProps } = field;
+	const { name } = fieldProps;
+
+	const Field = comp || FormTextField;
+	const key = name;
+
+	return <Field key={key} {...fieldProps} />;
+}
+
+function renderChildren(props: FormProps) {
+	const { fields, children } = props;
+
+	return (
+		<>
+			{fields.map((field) => renderFields(props, field))}
+			{children}
+		</>
+	);
+}
+
+export function Form(props: FormProps) {
+	const { form, ...formProps } = props;
+
 	return (
 		<FormContext {...form}>
-			<StyledForm {...formProps} />
+			<StyledForm {...formProps}>{renderChildren(props)}</StyledForm>
 		</FormContext>
 	);
 }
 
-Form.propTypes = {
-	form: PropTypes.object.isRequired,
-	onSubmit: PropTypes.func.isRequired,
+Form.defaultProps = {
+	fields: [],
 };
-
-styled.Form = styled(Form);
