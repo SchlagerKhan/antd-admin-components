@@ -13,8 +13,6 @@ export const SaveButton = styled(Button).attrs({
 	children: 'Save',
 })``;
 
-export function createSubmit(form) {
-	return form.handleSubmit((values) => {
-		console.log(values);
-	});
+export function onSubmit(values) {
+	console.log('Submit', values);
 }

@@ -1,20 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
 import { Button } from 'antd';
 
-import { FormField, BasicFieldPropTypes, BasicFormFieldProps } from '../field';
+import { FormField, BasicFormFieldProps } from '../field';
 
 export interface FormArrayFieldProps {
 	name: string;
-	label: string;
+	label?: string;
+	onAdd: Function;
 	children: any;
 }
 
 export interface BasicFormArrayFieldProps extends BasicFormFieldProps {
-	onAdd: Function;
+	onAdd: FormArrayFieldProps['onAdd'];
 	onRemove: Function;
 }
 
@@ -36,10 +36,10 @@ const AddButton = styled(Button).attrs({
 	htmlType: 'button',
 })``;
 
-export function FormArrayField(props) {
-	const { name, onAdd, children } = props;
+export function FormArrayField(props: FormArrayFieldProps) {
+	const { name, label, onAdd, children } = props;
 
-	const label = (
+	const fieldLabel = label && (
 		<LabelWrapper>
 			<span>{props.label}</span>
 		</LabelWrapper>
@@ -47,7 +47,7 @@ export function FormArrayField(props) {
 
 	// prettier-ignore
 	return (
-		<FormField label={label} name={name}>
+		<FormField label={fieldLabel} name={name}>
 			<Wrapper>{children}</Wrapper>
 			<AddButton onClick={onAdd} />
 		</FormField>

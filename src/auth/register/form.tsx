@@ -1,11 +1,14 @@
-import { noop } from 'lodash';
+import React from 'react';
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { AuthFormTemplate, AuthFormTemplateProps } from '../helpers';
 
-import { AuthFormTemplate } from '../helpers';
+export interface RegisterFormProps {
+	title?: string;
+	onRegister: AuthFormTemplateProps['onAction'];
+	onError?: AuthFormTemplateProps['onError'];
+}
 
-export function RegisterForm(props) {
+export function RegisterForm(props: RegisterFormProps) {
 	const { onRegister, ...restProps } = props;
 
 	const templateProps = Object.assign({}, restProps, {
@@ -15,8 +18,3 @@ export function RegisterForm(props) {
 
 	return <AuthFormTemplate {...templateProps} />;
 }
-RegisterForm.propTypes = {
-	title: PropTypes.string,
-	onRegister: PropTypes.func.isRequired,
-	onError: PropTypes.func,
-};

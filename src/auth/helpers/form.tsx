@@ -1,7 +1,6 @@
 import { noop } from 'lodash';
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import useForm from 'react-hook-form';
 
@@ -9,7 +8,7 @@ import { Form, FormTextField } from '../../form';
 import { renderTitle, SubmitButton } from './components';
 
 export interface AuthFormTemplateProps {
-	title: string;
+	title?: string;
 	buttonText: string;
 	onAction: (values: any) => void | Promise<void>;
 	onError?: (err, form) => void;
@@ -17,9 +16,8 @@ export interface AuthFormTemplateProps {
 
 function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
 	const { onAction, onError } = props;
-	const { handleSubmit } = form;
 
-	return handleSubmit(async (values) => {
+	return async (values) => {
 		setLoading(true);
 
 		try {
@@ -29,14 +27,13 @@ function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
 		} finally {
 			setLoading(false);
 		}
-	});
+	};
 }
 
 export function AuthFormTemplate(props: AuthFormTemplateProps) {
 	const { buttonText } = props;
 
 	const form = useForm();
-	const { register, errors } = form;
 
 	const [loading, setLoading] = useState(false);
 	const onSubmit = createOnSubmit(props, form, setLoading);
@@ -46,14 +43,7 @@ export function AuthFormTemplate(props: AuthFormTemplateProps) {
 			{renderTitle(props)}
 
 			<FormTextField name='email' placeholder='Email' />
-			<FormTextField
-				name='password'
-				placeholder='Password'
-				type='password'
-				register={register({
-					required: 'Password required',
-				})}
-			/>
+			<FormTextField name='password' placeholder='Password' type='password' registerOpts={{ required: 'Password required' }} />
 
 			<SubmitButton loading={loading}>{buttonText}</SubmitButton>
 		</Form>

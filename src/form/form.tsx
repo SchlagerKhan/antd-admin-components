@@ -44,11 +44,14 @@ function renderChildren(props: FormProps) {
 }
 
 export function Form(props: FormProps) {
-	const { form, ...formProps } = props;
+	const { form, onSubmit, ...formProps } = props;
+	const handleSubmit = form.handleSubmit(onSubmit);
 
 	return (
 		<FormContext {...form}>
-			<StyledForm {...formProps}>{renderChildren(props)}</StyledForm>
+			<StyledForm {...formProps} onSubmit={handleSubmit}>
+				{renderChildren(props)}
+			</StyledForm>
 		</FormContext>
 	);
 }

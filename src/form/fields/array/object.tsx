@@ -34,7 +34,7 @@ function renderPanel(value, i) {
 	);
 }
 
-export function FormObjectArrayField(props) {
+export function FormObjectArrayField(props: FormObjectArrayFieldProps) {
 	const { values, ...fieldProps } = props;
 
 	// prettier-ignore

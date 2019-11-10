@@ -8,8 +8,8 @@ import styled from 'styled-components';
 import { Error } from './error';
 
 export interface FormFieldProps {
-	label: any;
 	name: string;
+	label?: any;
 	hideError?: boolean;
 	children: any;
 }
@@ -18,7 +18,7 @@ export interface BasicFormFieldProps {
 	name: FormFieldProps['name'];
 	label?: FormFieldProps['label'];
 	placeholder?: string;
-	register?: Function;
+	registerOpts?: any;
 	error?: any;
 }
 
@@ -71,9 +71,3 @@ export function FormField(props: FormFieldProps) {
 		</Wrapper>
 	);
 }
-
-export const BasicFieldPropTypes = {
-	label: PropTypes.node,
-	name: PropTypes.string.isRequired,
-	register: PropTypes.func,
-};

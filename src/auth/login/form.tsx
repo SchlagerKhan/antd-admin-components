@@ -1,11 +1,14 @@
-import { noop } from 'lodash';
+import React from 'react';
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { AuthFormTemplate, AuthFormTemplateProps } from '../helpers';
 
-import { AuthFormTemplate } from '../helpers';
+export interface LoginFormProps {
+	title?: string;
+	onLogin: AuthFormTemplateProps['onAction'];
+	onError?: AuthFormTemplateProps['onError'];
+}
 
-export function LoginForm(props) {
+export function LoginForm(props: LoginFormProps) {
 	const { onLogin, ...restProps } = props;
 
 	const templateProps = Object.assign({}, restProps, {
@@ -15,9 +18,3 @@ export function LoginForm(props) {
 
 	return <AuthFormTemplate {...templateProps} />;
 }
-
-LoginForm.propTypes = {
-	title: PropTypes.string,
-	onLogin: PropTypes.func.isRequired,
-	onError: PropTypes.func,
-};

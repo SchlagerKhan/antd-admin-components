@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Card, AuthFormTemplateProps } from '../helpers';
 import { RegisterForm } from './form';
@@ -9,7 +8,7 @@ export interface RegisterCardProps {
 	onRegister: AuthFormTemplateProps['onAction'];
 }
 
-export function RegisterCard(props) {
+export function RegisterCard(props: RegisterCardProps) {
 	const { title, onRegister } = props;
 
 	return (
@@ -18,8 +17,3 @@ export function RegisterCard(props) {
 		</Card>
 	);
 }
-
-RegisterCard.propTypes = {
-	title: PropTypes.string.isRequired,
-	onRegister: PropTypes.func.isRequired,
-};

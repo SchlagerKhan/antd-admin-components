@@ -11,14 +11,6 @@ export interface FormTextArrayFieldProps extends BasicFormArrayFieldProps {
 	values: any[];
 }
 
-const Element = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	padding: 8px 0;
-`;
-
 const DeleteIcon = styled(Icon).attrs({
 	type: 'delete',
 })``;
@@ -41,7 +33,7 @@ function renderElement(props, value, i) {
 	);
 }
 
-export function FormTextArrayField(props) {
+export function FormTextArrayField(props: FormTextArrayFieldProps) {
 	const { values, ...fieldProps } = props;
 	const doRenderElement = (value, i) => renderElement(props, value, i);
 

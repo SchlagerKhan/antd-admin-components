@@ -4,7 +4,7 @@ import useForm from 'react-hook-form';
 import { Form } from '../form';
 import { FormTextArrayField, FormObjectArrayField } from '../fields';
 
-import { Wrapper, Item, Title, createSubmit, SaveButton } from './helpers';
+import { Wrapper, Item, Title, SaveButton, onSubmit } from './helpers';
 
 export function ArrayForm() {
 	const form = useForm();
@@ -17,8 +17,6 @@ export function ArrayForm() {
 		},
 	]);
 
-	const handleSubmit = createSubmit(form);
-
 	function handleTextAdd() {
 		console.log('Add');
 	}
@@ -30,7 +28,7 @@ export function ArrayForm() {
 		<Wrapper>
 			<Item>
 				<Title>Array form</Title>
-				<Form form={form} onSubmit={handleSubmit}>
+				<Form form={form} onSubmit={onSubmit}>
 					<FormTextArrayField label='Text array' name='text_array' values={textArray} onAdd={handleTextAdd} onRemove={handleTextRemove} />
 					<FormObjectArrayField
 						label='Object array'
@@ -41,7 +39,7 @@ export function ArrayForm() {
 						renderElement={(val) => <p>{val.text + ' ' + val.meta}</p>}
 					/>
 
-					<SaveButton></SaveButton>
+					<SaveButton />
 				</Form>
 			</Item>
 		</Wrapper>

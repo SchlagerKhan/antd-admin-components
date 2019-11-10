@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import useForm from 'react-hook-form';
 
-import styled from 'styled-components';
-
-import { Form } from '../form';
+import { Form, FormFieldElement } from '../form';
 import { FormTextField } from '../fields';
 
-import { Wrapper, Item, Title, SaveButton, createSubmit } from './helpers';
+import { Wrapper, Item, Title, SaveButton, onSubmit } from './helpers';
+
+const FIELDS: FormFieldElement[] = [
+	{
+		name: 'text1',
+		label: 'Text 1',
+	},
+	{
+		name: 'text2',
+		label: 'Text 2',
+	},
+];
 
 export function RegularForm() {
 	const form = useForm();
-
-	const { register } = form;
-	const handleSubmit = createSubmit(form);
 
 	form.setError('text2', 'Error', 'Error message');
 
@@ -20,17 +26,10 @@ export function RegularForm() {
 		<Wrapper>
 			<Item>
 				<Title>Regular form</Title>
-				<Form form={form} onSubmit={handleSubmit}>
-					<FormTextField label='Text field 1' name='text1' />
-					<FormTextField label='Text field 2' name='text2' error={form.errors.text2} />
-					<FormTextField
-						label='Text field 3 (required)'
-						name='text3'
-						error={form.errors.text3}
-						register={register({ required: 'Required' })}
-					/>
+				<Form form={form} fields={FIELDS} onSubmit={onSubmit}>
+					<FormTextField label='Extra text (required)' name='extraText' registerOpts={{ required: 'Required' }} />
 
-					<SaveButton></SaveButton>
+					<SaveButton />
 				</Form>
 			</Item>
 		</Wrapper>

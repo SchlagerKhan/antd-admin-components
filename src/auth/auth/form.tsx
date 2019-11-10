@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-import { LoginForm } from '../login';
-import { RegisterForm } from '../register';
+import { LoginForm, LoginFormProps } from '../login';
+import { RegisterForm, RegisterFormProps } from '../register';
 import { ToggleButton } from '../helpers';
+
+export interface AuthFormProps {
+	onLogin: LoginFormProps['onLogin'];
+	onRegister: RegisterFormProps['onRegister'];
+}
 
 const FormWrapper = styled.div`
 	margin-bottom: 12px;
 `;
 
-function renderForm(isLogin, props) {
+function renderForm(isLogin: boolean, props: AuthFormProps) {
 	const { onLogin, onRegister } = props;
 
 	// prettier-ignore
@@ -20,7 +24,7 @@ function renderForm(isLogin, props) {
 		: <RegisterForm title='Register' onRegister={onRegister} />;
 }
 
-export function AuthForm(props) {
+export function AuthForm(props: AuthFormProps) {
 	const [isLogin, setIsLogin] = useState(true);
 
 	const form = renderForm(isLogin, props);
@@ -34,8 +38,3 @@ export function AuthForm(props) {
 		</>
 	);
 }
-
-AuthForm.propTypes = {
-	onLogin: PropTypes.func.isRequired,
-	onRegister: PropTypes.func.isRequired,
-};
