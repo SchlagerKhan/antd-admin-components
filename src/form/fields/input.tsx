@@ -14,7 +14,7 @@ export function renderInput(props: FormInputFieldProps, Comp: any, getValFn: Fun
 	const { register, setValue } = useFormContext();
 
 	register({ name }, registerOpts);
-	const handleChange = (arg) => setValue(name, getValFn(arg));
+	const handleChange = (arg) => setValue(name, getValFn(arg), true);
 
 	return (
 		<FormField label={label} name={name}>
