@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useForm from 'react-hook-form';
 
-import { Form, FormFieldElement } from '../form';
-import { FormTextField } from '../fields';
+import { Form, FormFieldTemplateElement } from '../form';
+import { FormNumberField, FormTextAreaField } from '../fields';
 
 import { Wrapper, Item, Title, SaveButton, onSubmit } from './helpers';
 
-const FIELDS: FormFieldElement[] = [
+const FIELDS: FormFieldTemplateElement[] = [
 	{
 		name: 'text1',
 		label: 'Text 1',
@@ -14,6 +14,11 @@ const FIELDS: FormFieldElement[] = [
 	{
 		name: 'text2',
 		label: 'Text 2',
+	},
+	{
+		name: 'num1',
+		label: 'Number 1',
+		comp: FormNumberField,
 	},
 ];
 
@@ -27,7 +32,7 @@ export function RegularForm() {
 			<Item>
 				<Title>Regular form</Title>
 				<Form form={form} fields={FIELDS} onSubmit={onSubmit}>
-					<FormTextField label='Extra text (required)' name='extraText' registerOpts={{ required: 'Required' }} />
+					<FormTextAreaField label='Text area (required)' name='extraText' registerOpts={{ required: 'Required' }} />
 
 					<SaveButton />
 				</Form>

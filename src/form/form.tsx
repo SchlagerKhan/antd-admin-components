@@ -3,16 +3,18 @@ import React from 'react';
 import { FormContext } from 'react-hook-form';
 
 import styled from 'styled-components';
-import { BasicFormFieldProps, FormTextField } from './fields';
+import { FormTextField, FormTextFieldProps, FormTextAreaFieldProps, FormNumberFieldProps } from './fields';
 
-export interface FormFieldElement extends BasicFormFieldProps {
-	comp?: any;
-	value?: any;
-}
+export type FormFieldTemplateElement = FormTextFieldProps &
+	FormTextAreaFieldProps &
+	FormNumberFieldProps & {
+		comp?: any;
+		value?: any;
+	};
 
 export interface FormProps {
 	form: any;
-	fields?: FormFieldElement[];
+	fields?: FormFieldTemplateElement[];
 	onSubmit: (values: any) => void;
 	children?: any;
 }
@@ -22,7 +24,7 @@ const StyledForm = styled.form`
 	flex-direction: column;
 `;
 
-function renderFields(props: FormProps, field: FormFieldElement) {
+function renderFields(props: FormProps, field: FormFieldTemplateElement) {
 	const { comp, ...fieldProps } = field;
 	const { name } = fieldProps;
 
