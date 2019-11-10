@@ -38,8 +38,6 @@ export function ArrayForm() {
 						onRemove={handleTextRemove}
 						renderElement={(val) => <p>{val.text + ' ' + val.meta}</p>}
 					/>
-
-					<SaveButton />
 				</Form>
 			</Item>
 		</Wrapper>

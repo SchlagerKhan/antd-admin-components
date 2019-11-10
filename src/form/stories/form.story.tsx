@@ -33,8 +33,6 @@ export function RegularForm() {
 				<Title>Regular form</Title>
 				<Form form={form} fields={FIELDS} onSubmit={onSubmit}>
 					<FormTextAreaField label='Text area (required)' name='extraText' registerOpts={{ required: 'Required' }} />
-
-					<SaveButton />
 				</Form>
 			</Item>
 		</Wrapper>
