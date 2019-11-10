@@ -8,18 +8,17 @@ import { Button } from 'antd';
 
 import { FormTextField, FormTextFieldProps, FormTextAreaFieldProps, FormNumberFieldProps } from './fields';
 
-export type FormFieldTemplateElement = FormTextFieldProps &
-	FormTextAreaFieldProps &
-	FormNumberFieldProps & {
-		comp?: any;
-		value?: any;
-	};
+export type FormFieldTemplateElement = {
+	comp?: any;
+	value?: any;
+	defaultValue?: any;
+} & (FormTextFieldProps | FormTextAreaFieldProps | FormNumberFieldProps);
 
 export interface FormProps {
 	form: any;
 	fields?: FormFieldTemplateElement[];
 	saveButton?: any;
-	onSubmit: (values: any) => void;
+	onSubmit?: (values: any) => void;
 	children?: any;
 }
 
@@ -54,6 +53,12 @@ function renderChildren(props: FormProps) {
 	);
 }
 
+function renderSaveButton(props: FormProps) {
+	const { saveButton, onSubmit } = props;
+
+	return onSubmit && saveButton;
+}
+
 export function Form(props: FormProps) {
 	const { form, onSubmit, saveButton, ...formProps } = props;
 	const handleSubmit = form.handleSubmit(onSubmit);
@@ -62,7 +67,7 @@ export function Form(props: FormProps) {
 		<FormContext {...form}>
 			<StyledForm {...formProps} onSubmit={handleSubmit}>
 				{renderChildren(props)}
-				{saveButton}
+				{renderSaveButton(props)}
 			</StyledForm>
 		</FormContext>
 	);

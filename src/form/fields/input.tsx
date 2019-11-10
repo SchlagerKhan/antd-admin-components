@@ -9,7 +9,7 @@ import { InputNumberProps } from 'antd/lib/input-number';
 
 type FormInputFieldProps = BasicFormFieldProps & {};
 
-export function renderInput(props: FormInputFieldProps, Comp: any, getValFn: Function) {
+function renderInput(props: FormInputFieldProps, Comp: any, getValFn: Function) {
 	const { name, label, registerOpts, ...inputProps } = props;
 	const { register, setValue } = useFormContext();
 
