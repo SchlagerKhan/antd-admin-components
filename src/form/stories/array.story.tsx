@@ -1,43 +1,32 @@
 import React, { useState } from 'react';
 import useForm from 'react-hook-form';
 
+import { Button } from 'antd';
+
 import { Form } from '../form';
 import { FormTextArrayField, FormObjectArrayField } from '../fields';
 
-import { Wrapper, Item, Title, SaveButton, onSubmit } from './helpers';
+import { Wrapper, Item, Title, onSubmit } from './helpers';
+
+function renderElement(val) {
+	return <p>{val.text + ' ' + val.meta}</p>;
+}
 
 export function ArrayForm() {
-	const form = useForm();
+	const defaultValues = { textArray: ['Test', 'Testing'] };
+	const form = useForm({ defaultValues });
 
-	const [textArray, setTextArray] = useState(['Element 1']);
-	const [objArray, setObjArray] = useState([
-		{
-			text: 'Text',
-			meta: 'Meta',
-		},
-	]);
-
-	function handleTextAdd() {
-		console.log('Add');
-	}
-	function handleTextRemove() {
-		console.log('Remove');
+	function reset() {
+		form.reset(defaultValues);
 	}
 
 	return (
 		<Wrapper>
 			<Item>
 				<Title>Array form</Title>
-				<Form form={form} onSubmit={onSubmit}>
-					<FormTextArrayField label='Text array' name='text_array' values={textArray} onAdd={handleTextAdd} onRemove={handleTextRemove} />
-					<FormObjectArrayField
-						label='Object array'
-						name='object_array'
-						values={objArray}
-						onAdd={handleTextAdd}
-						onRemove={handleTextRemove}
-						renderElement={(val) => <p>{val.text + ' ' + val.meta}</p>}
-					/>
+				<Form form={form} onSubmit={onSubmit} onReset={reset}>
+					<FormTextArrayField label='Text array' name='textArray' />
+					{/* <FormObjectArrayField label='Object array' name='objectArray' renderElement={renderElement} /> */}
 				</Form>
 			</Item>
 		</Wrapper>

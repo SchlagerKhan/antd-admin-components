@@ -1,52 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import styled from 'styled-components';
-
-import { Collapse, Icon } from 'antd';
+import { Collapse } from 'antd';
 
 import { FormArrayField, BasicFormArrayFieldProps } from './array';
+import { DeleteIcon } from './helpers';
 
 export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
 	renderElement: Function;
-	values: any[];
 }
 
-const DeleteIcon = styled(Icon).attrs({
-	type: 'delete',
-})``;
+function renderItem(value, i, onRemove) {
+	const { name, renderElement } = this;
 
-function renderPanel(value, i) {
-	const { name, renderElement, onRemove } = this;
-	const key = `${name}-${i}`;
+	const panelProps = {
+		key: `${name}-${i}`,
+		header: 'Test',
+		extra: <DeleteIcon onClick={onRemove} />,
+	};
 
-	function handleRemove(e) {
-		e.stopPropagation();
-		onRemove();
-	}
-
-	const deleteIcon = <DeleteIcon onClick={handleRemove} />;
-
+	// prettier-ignore
 	return (
-		<Collapse.Panel key={key} header='Test' extra={deleteIcon}>
+		<Collapse.Panel {...panelProps}>
 			{renderElement(value, i)}
 		</Collapse.Panel>
 	);
 }
 
 export function FormObjectArrayField(props: FormObjectArrayFieldProps) {
-	const { values, ...fieldProps } = props;
+	const {} = props;
 
-	// prettier-ignore
-	return (
-		<FormArrayField {...fieldProps}>
-			<Collapse>
-				{values.map(renderPanel.bind(props))}
-			</Collapse>
-		</FormArrayField>
-	);
+	const fieldProps = {
+		...props,
+		wrapperComp: Collapse,
+		ItemComp: false,
+	};
+
+	return <FormArrayField {...fieldProps} />;
 }
-
-FormObjectArrayField.defaultProps = {
-	values: [],
-};

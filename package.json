@@ -18,6 +18,7 @@
 		"@storybook/addons": "^5.2.5",
 		"@storybook/react": "^5.2.5",
 		"@types/jest": "^24.0.22",
+		"@types/lodash": "^4.14.146",
 		"antd": "^3.25.0",
 		"awesome-typescript-loader": "^5.2.1",
 		"babel-loader": "^8.0.6",

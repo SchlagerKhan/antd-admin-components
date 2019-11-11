@@ -1,4 +1,7 @@
-import React from 'react';
+import { times } from 'lodash';
+
+import React, { useState, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import styled from 'styled-components';
 
@@ -9,25 +12,35 @@ import { FormField, BasicFormFieldProps } from '../field';
 export interface FormArrayFieldProps {
 	name: string;
 	label?: string;
-	onAdd: Function;
-	children: any;
+	wrapperComp?: any;
+	ItemComp: any;
 }
 
-export interface BasicFormArrayFieldProps extends BasicFormFieldProps {
-	onAdd: FormArrayFieldProps['onAdd'];
-	onRemove: Function;
+export interface BasicFormArrayFieldProps extends BasicFormFieldProps {}
+
+/* HELPERS */
+const itemsToIndices = (items) => items.map((_, i) => i);
+
+function useArrayItems(props: FormArrayFieldProps) {
+	const { name } = props;
+	const { watch } = useFormContext();
+
+	const items = watch(name) || [];
+	const [counter, setCounter] = useState(items.length);
+	const [indices, setIndices] = useState(itemsToIndices(items));
+
+	const addItem = () => {
+		setIndices((prev) => [...prev, counter]);
+		setCounter((prev) => prev + 1);
+	};
+	const removeItem = (index) => setIndices((prev) => prev.filter((i) => i !== index));
+
+	return { indices, addItem, removeItem };
 }
 
+/* COMPONENTS */
 const Wrapper = styled.div`
-	margin-bottom: 24px;
-`;
-
-const LabelWrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	margin-bottom: 4px;
+	margin-bottom: 6px;
 `;
 
 const AddButton = styled(Button).attrs({
@@ -36,20 +49,28 @@ const AddButton = styled(Button).attrs({
 	htmlType: 'button',
 })``;
 
-export function FormArrayField(props: FormArrayFieldProps) {
-	const { name, label, onAdd, children } = props;
+/* RENDERING */
+function renderItem(props: FormArrayFieldProps, index: number, removeItem: Function) {
+	const { name, ItemComp } = props;
 
-	const fieldLabel = label && (
-		<LabelWrapper>
-			<span>{props.label}</span>
-		</LabelWrapper>
-	);
+	const key = `${name}-${index}`;
+	const handleRemove = () => removeItem(index);
+
+	return <ItemComp key={key} name={name} index={index} onRemove={handleRemove} />;
+}
+
+export function FormArrayField(props: FormArrayFieldProps) {
+	const { name, label, wrapperComp } = props;
+
+	const { indices, addItem, removeItem } = useArrayItems(props);
 
 	// prettier-ignore
 	return (
-		<FormField label={fieldLabel} name={name}>
-			<Wrapper>{children}</Wrapper>
-			<AddButton onClick={onAdd} />
+		<FormField label={label} name={name}>
+			<Wrapper as={wrapperComp}>
+				{indices.map((i) => renderItem(props, i, removeItem))}
+			</Wrapper>
+			<AddButton onClick={addItem} />
 		</FormField>
 	);
 }

@@ -23,6 +23,7 @@ function renderInput(props: FormInputFieldProps, Comp: any, getValFn: Function) 
 	);
 }
 
+/* VALUE FUNCTIONS */
 const getTargetVal = (e) => e.target.value;
 const identity = (i) => i;
 

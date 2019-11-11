@@ -4,7 +4,7 @@ import useForm from 'react-hook-form';
 import { Form, FormFieldTemplateElement } from '../form';
 import { FormNumberField, FormTextAreaField } from '../fields';
 
-import { Wrapper, Item, Title, SaveButton, onSubmit } from './helpers';
+import { Wrapper, Item, Title, onSubmit } from './helpers';
 
 const FIELDS: FormFieldTemplateElement[] = [
 	{

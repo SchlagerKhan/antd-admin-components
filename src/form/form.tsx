@@ -8,6 +8,7 @@ import { Button } from 'antd';
 
 import { FormTextField, FormTextFieldProps, FormTextAreaFieldProps, FormNumberFieldProps } from './fields';
 
+/* TYPES */
 export type FormFieldTemplateElement = {
 	comp?: any;
 	value?: any;
@@ -17,22 +18,32 @@ export type FormFieldTemplateElement = {
 export interface FormProps {
 	form: any;
 	fields?: FormFieldTemplateElement[];
-	saveButton?: any;
+	defaultValues?: any;
+	onReset?: () => void;
+	submitText?: any;
 	onSubmit?: (values: any) => void;
 	children?: any;
 }
 
+/* COMPONENTS */
 const StyledForm = styled.form`
 	display: flex;
 	flex-direction: column;
 `;
 
-export const DefaultSaveButton = styled(Button).attrs({
+const ResetButton = styled(Button).attrs({
+	type: 'default',
+	htmlType: 'button',
+})`
+	margin-bottom: 6px;
+`;
+
+export const SubmitButton = styled(Button).attrs({
 	htmlType: 'submit',
-	children: 'Save',
 })``;
 
-function renderFields(props: FormProps, field: FormFieldTemplateElement) {
+/* RENDERING */
+function renderField(props: FormProps, field: FormFieldTemplateElement) {
 	const { comp, ...fieldProps } = field;
 	const { name } = fieldProps;
 
@@ -42,32 +53,33 @@ function renderFields(props: FormProps, field: FormFieldTemplateElement) {
 	return <Field key={key} {...fieldProps} />;
 }
 
-function renderChildren(props: FormProps) {
-	const { fields, children } = props;
+function renderFields(props: FormProps) {
+	const { fields } = props;
+
+	return fields.map((field) => renderField(props, field));
+}
+
+function renderButtons(props: FormProps) {
+	const { submitText, onSubmit, onReset } = props;
 
 	return (
 		<>
-			{fields.map((field) => renderFields(props, field))}
-			{children}
+			{onReset && <ResetButton onClick={onReset}>Reset</ResetButton>}
+			{onSubmit && <SubmitButton>{submitText}</SubmitButton>}
 		</>
 	);
 }
 
-function renderSaveButton(props: FormProps) {
-	const { saveButton, onSubmit } = props;
-
-	return onSubmit && saveButton;
-}
-
 export function Form(props: FormProps) {
-	const { form, onSubmit, saveButton, ...formProps } = props;
+	const { form, onSubmit, children, ...formProps } = props;
 	const handleSubmit = form.handleSubmit(onSubmit);
 
 	return (
 		<FormContext {...form}>
 			<StyledForm {...formProps} onSubmit={handleSubmit}>
-				{renderChildren(props)}
-				{renderSaveButton(props)}
+				{renderFields(props)}
+				{children}
+				{renderButtons(props)}
 			</StyledForm>
 		</FormContext>
 	);
@@ -75,5 +87,5 @@ export function Form(props: FormProps) {
 
 Form.defaultProps = {
 	fields: [],
-	saveButton: <DefaultSaveButton />,
+	submitText: 'Save',
 };
