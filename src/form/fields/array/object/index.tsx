@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Collapse } from 'antd';
 
-import { FormArrayField, BasicFormArrayFieldProps } from './array';
-import { DeleteIcon } from './helpers';
+import { FormArrayField, BasicFormArrayFieldProps } from '../array';
+import { DeleteIcon } from '../helpers';
 
 export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
 	renderElement: Function;

@@ -33,7 +33,11 @@ function useArrayItems(props: FormArrayFieldProps) {
 		setIndices((prev) => [...prev, counter]);
 		setCounter((prev) => prev + 1);
 	};
-	const removeItem = (index) => setIndices((prev) => prev.filter((i) => i !== index));
+	const removeItem = (index) => {
+		setIndices((prev) => prev.filter((i) => i !== index));
+	};
+
+	console.log(items);
 
 	return { indices, addItem, removeItem };
 }
@@ -53,10 +57,14 @@ const AddButton = styled(Button).attrs({
 function renderItem(props: FormArrayFieldProps, index: number, removeItem: Function) {
 	const { name, ItemComp } = props;
 
-	const key = `${name}-${index}`;
-	const handleRemove = () => removeItem(index);
+	const itemProps = {
+		key: `${name}-${index}`,
+		name,
+		index,
+		onRemove: () => removeItem(index),
+	};
 
-	return <ItemComp key={key} name={name} index={index} onRemove={handleRemove} />;
+	return <ItemComp {...itemProps} />;
 }
 
 export function FormArrayField(props: FormArrayFieldProps) {
@@ -68,7 +76,7 @@ export function FormArrayField(props: FormArrayFieldProps) {
 	return (
 		<FormField label={label} name={name}>
 			<Wrapper as={wrapperComp}>
-				{indices.map((i) => renderItem(props, i, removeItem))}
+				{indices.map((item, i) => renderItem(props, i, removeItem))}
 			</Wrapper>
 			<AddButton onClick={addItem} />
 		</FormField>

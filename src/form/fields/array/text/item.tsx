@@ -52,7 +52,6 @@ export function Item(props: ItemProps) {
 	const handleRemove = () => onRemove(index);
 
 	const inputProps = {
-		key: `${name}-${index}`,
 		name: `${name}[${index}]`,
 		ref: register,
 	};
