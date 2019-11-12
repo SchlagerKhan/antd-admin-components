@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { useFormContext } from 'react-hook-form';
+import { useField } from 'formik';
 
 import styled from 'styled-components';
 
 import { Error } from './error';
 
+/** TYPES */
 export interface FormFieldProps {
 	name: string;
 	label?: any;
@@ -16,11 +17,9 @@ export interface FormFieldProps {
 export interface BasicFormFieldProps {
 	name: FormFieldProps['name'];
 	label?: FormFieldProps['label'];
-	placeholder?: string;
-	registerOpts?: any;
-	error?: any;
 }
 
+/** COMPONENTS */
 const Wrapper = styled.div`
 	width: 100% !important;
 
@@ -34,7 +33,10 @@ const Label = styled.label`
 	font-weight: bold;
 `;
 
-function renderLabel(label, name) {
+/* RENDERING */
+function renderLabel(props: FormFieldProps) {
+	const { name, label } = props;
+
 	if (!label) {
 		return null;
 	}
@@ -53,18 +55,17 @@ function renderError(props: FormFieldProps) {
 		return null;
 	}
 
-	const { errors } = useFormContext();
-	const error = errors[name];
+	const [_, { error }] = useField(name);
 
 	return <Error error={error} />;
 }
 
 export function FormField(props: FormFieldProps) {
-	const { label, name, children, ...wrapperProps } = props;
+	const { children } = props;
 
 	return (
-		<Wrapper {...wrapperProps}>
-			{renderLabel(label, name)}
+		<Wrapper>
+			{renderLabel(props)}
 			{children}
 			{renderError(props)}
 		</Wrapper>

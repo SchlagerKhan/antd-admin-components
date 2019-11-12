@@ -38,16 +38,18 @@ export function AuthFormTemplate(props: AuthFormTemplateProps) {
 	const [loading, setLoading] = useState(false);
 	const onSubmit = createOnSubmit(props, form, setLoading);
 
-	return (
-		<Form form={form} onSubmit={onSubmit}>
-			{renderTitle(props)}
+	return null;
 
-			<FormTextField name='email' placeholder='Email' />
-			<FormTextField name='password' placeholder='Password' type='password' registerOpts={{ required: 'Password required' }} />
+	// return (
+	// 	<Form form={form} onSubmit={onSubmit}>
+	// 		{renderTitle(props)}
 
-			<SubmitButton loading={loading}>{buttonText}</SubmitButton>
-		</Form>
-	);
+	// 		<FormTextField name='email' placeholder='Email' />
+	// 		<FormTextField name='password' placeholder='Password' type='password' registerOpts={{ required: 'Password required' }} />
+
+	// 		<SubmitButton loading={loading}>{buttonText}</SubmitButton>
+	// 	</Form>
+	// );
 }
 
 AuthFormTemplate.defaultProps = {

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { FormArrayField, BasicFormArrayFieldProps, FormArrayFieldProps } from '../array';
+import { FormArrayField } from '../array';
+import { BasicFormArrayFieldProps, FormArrayFieldProps } from '../helpers';
 import { Item } from './item';
 
 export interface FormTextArrayFieldProps extends BasicFormArrayFieldProps {}
@@ -8,6 +9,7 @@ export interface FormTextArrayFieldProps extends BasicFormArrayFieldProps {}
 export function FormTextArrayField(props: FormTextArrayFieldProps) {
 	const fieldProps: FormArrayFieldProps = {
 		...props,
+		defaultValue: '',
 		ItemComp: Item,
 	};
 

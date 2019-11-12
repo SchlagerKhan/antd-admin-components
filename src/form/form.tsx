@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormContext } from 'react-hook-form';
+import { Form as FormikForm, FormikProvider, FormikProps } from 'formik';
 
 import styled from 'styled-components';
 
@@ -15,25 +15,23 @@ export type FormFieldTemplateElement = {
 	defaultValue?: any;
 } & (FormTextFieldProps | FormTextAreaFieldProps | FormNumberFieldProps);
 
-export interface FormProps {
-	form: any;
+export interface FormProps extends Partial<HTMLFormElement> {
+	formik: FormikProps<any>;
 	fields?: FormFieldTemplateElement[];
-	defaultValues?: any;
-	onReset?: () => void;
+	withReset?: boolean;
 	submitText?: any;
-	onSubmit?: (values: any) => void;
 	children?: any;
 }
 
 /* COMPONENTS */
-const StyledForm = styled.form`
+const StyledForm = styled(FormikForm)`
 	display: flex;
 	flex-direction: column;
 `;
 
 const ResetButton = styled(Button).attrs({
 	type: 'default',
-	htmlType: 'button',
+	htmlType: 'reset',
 })`
 	margin-bottom: 6px;
 `;
@@ -43,45 +41,45 @@ export const SubmitButton = styled(Button).attrs({
 })``;
 
 /* RENDERING */
-function renderField(props: FormProps, field: FormFieldTemplateElement) {
+function renderField(field: FormFieldTemplateElement) {
 	const { comp, ...fieldProps } = field;
 	const { name } = fieldProps;
 
-	const Field = comp || FormTextField;
-	const key = name;
+	const FieldComp = comp || FormTextField;
+	const key = `field-${name}`;
 
-	return <Field key={key} {...fieldProps} />;
+	return <FieldComp key={key} {...fieldProps} />;
 }
 
 function renderFields(props: FormProps) {
 	const { fields } = props;
 
-	return fields.map((field) => renderField(props, field));
+	return fields.map(renderField);
 }
 
 function renderButtons(props: FormProps) {
-	const { submitText, onSubmit, onReset } = props;
+	const { submitText, withReset } = props;
 
 	return (
 		<>
-			{onReset && <ResetButton onClick={onReset}>Reset</ResetButton>}
-			{onSubmit && <SubmitButton>{submitText}</SubmitButton>}
+			{withReset && <ResetButton>Reset</ResetButton>}
+			<SubmitButton>{submitText}</SubmitButton>
 		</>
 	);
 }
 
 export function Form(props: FormProps) {
-	const { form, onSubmit, children, ...formProps } = props;
-	const handleSubmit = form.handleSubmit(onSubmit);
+	const { formik, children, style, className } = props;
+	const formProps = { style, className };
 
 	return (
-		<FormContext {...form}>
-			<StyledForm {...formProps} onSubmit={handleSubmit}>
+		<FormikProvider value={formik}>
+			<StyledForm {...formProps}>
 				{renderFields(props)}
 				{children}
 				{renderButtons(props)}
 			</StyledForm>
-		</FormContext>
+		</FormikProvider>
 	);
 }
 

@@ -38,12 +38,14 @@ export function useFormPrompt(fields: FormFieldTemplateElement[], opts: BaseProm
 	const defaultValues = getDefaultValues(fields);
 	const form = useForm({ defaultValues });
 
-	const onOk = createOnOk(opts, form);
-	const children = <Form form={form} fields={fields} />;
-	const promptState = usePrompt({ ...opts, onOk, children });
+	return null;
 
-	const prompt = createPrompt(promptState, form, defaultValues);
-	const { content } = promptState;
+	// const onOk = createOnOk(opts, form);
+	// const children = <Form form={form} fields={fields} />;
+	// const promptState = usePrompt({ ...opts, onOk, children });
 
-	return { prompt, content };
+	// const prompt = createPrompt(promptState, form, defaultValues);
+	// const { content } = promptState;
+
+	// return { prompt, content };
 }

@@ -1,46 +1,14 @@
-import { times } from 'lodash';
+import { cloneDeep } from 'lodash';
 
-import React, { useState, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import React from 'react';
+import { FieldArray, ArrayHelpers, Field, FieldProps } from 'formik';
 
 import styled from 'styled-components';
 
 import { Button } from 'antd';
 
-import { FormField, BasicFormFieldProps } from '../field';
-
-export interface FormArrayFieldProps {
-	name: string;
-	label?: string;
-	wrapperComp?: any;
-	ItemComp: any;
-}
-
-export interface BasicFormArrayFieldProps extends BasicFormFieldProps {}
-
-/* HELPERS */
-const itemsToIndices = (items) => items.map((_, i) => i);
-
-function useArrayItems(props: FormArrayFieldProps) {
-	const { name } = props;
-	const { watch } = useFormContext();
-
-	const items = watch(name) || [];
-	const [counter, setCounter] = useState(items.length);
-	const [indices, setIndices] = useState(itemsToIndices(items));
-
-	const addItem = () => {
-		setIndices((prev) => [...prev, counter]);
-		setCounter((prev) => prev + 1);
-	};
-	const removeItem = (index) => {
-		setIndices((prev) => prev.filter((i) => i !== index));
-	};
-
-	console.log(items);
-
-	return { indices, addItem, removeItem };
-}
+import { FormField } from '../field';
+import { FormArrayFieldProps, useFieldProps, FormArrayRenderItemOpts } from './helpers';
 
 /* COMPONENTS */
 const Wrapper = styled.div`
@@ -54,31 +22,59 @@ const AddButton = styled(Button).attrs({
 })``;
 
 /* RENDERING */
-function renderItem(props: FormArrayFieldProps, index: number, removeItem: Function) {
-	const { name, ItemComp } = props;
+function defaultRenderItem(opts: FormArrayRenderItemOpts) {
+	const { name, index, ItemComp, helpers } = opts;
 
-	const itemProps = {
+	const fieldProps = {
 		key: `${name}-${index}`,
-		name,
+		name: `${name}.${index}`,
 		index,
-		onRemove: () => removeItem(index),
+		onRemove: () => helpers.remove(index),
+		component: ItemComp,
 	};
 
-	return <ItemComp {...itemProps} />;
+	return <Field {...fieldProps} />;
+}
+
+function defaultRenderItems(props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) {
+	const { name, ItemComp, renderItem } = props;
+
+	return fieldProps.field.value.map((value, index) => {
+		const opts = { name, index, ItemComp, helpers };
+		return renderItem(opts);
+	});
+}
+
+function renderFieldArray(props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) {
+	const { renderItems, defaultValue } = props;
+	const items = renderItems(props, fieldProps, helpers);
+
+	const addItem = () => {
+		const newItem = cloneDeep(defaultValue);
+		helpers.push(newItem);
+	};
+
+	return (
+		<>
+			<Wrapper>{items}</Wrapper>
+			<AddButton onClick={addItem} />
+		</>
+	);
 }
 
 export function FormArrayField(props: FormArrayFieldProps) {
-	const { name, label, wrapperComp } = props;
+	const { name, label } = props;
+	const fieldProps = useFieldProps(name);
+	const renderArray = (helpers) => renderFieldArray(props, fieldProps, helpers);
 
-	const { indices, addItem, removeItem } = useArrayItems(props);
-
-	// prettier-ignore
 	return (
 		<FormField label={label} name={name}>
-			<Wrapper as={wrapperComp}>
-				{indices.map((item, i) => renderItem(props, i, removeItem))}
-			</Wrapper>
-			<AddButton onClick={addItem} />
+			<FieldArray name={name} render={renderArray} />
 		</FormField>
 	);
 }
+
+FormArrayField.defaultProps = {
+	renderItem: defaultRenderItem,
+	renderItems: defaultRenderItems,
+};

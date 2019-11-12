@@ -19,10 +19,12 @@
 		"@storybook/react": "^5.2.5",
 		"@types/jest": "^24.0.22",
 		"@types/lodash": "^4.14.146",
+		"@types/yup": "^0.26.24",
 		"antd": "^3.25.0",
 		"awesome-typescript-loader": "^5.2.1",
 		"babel-loader": "^8.0.6",
 		"babel-plugin-import": "^1.12.2",
+		"formik": "^2.0.3",
 		"jest": "^24.9.0",
 		"react": "^16.11.0",
 		"react-docgen": "^4.1.1",
@@ -35,15 +37,18 @@
 		"styled-components": "^4.4.1",
 		"ts-jest": "^24.1.0",
 		"typescript": "^3.7.2",
-		"webpack": "^4.41.2"
+		"webpack": "^4.41.2",
+		"yup": "^0.27.0"
 	},
 	"peerDependencies": {
 		"antd": "^3.25.0",
+		"formik": "^2.0.3",
 		"lodash": "^4.17.15",
 		"react": "^16.11.0",
 		"react-dom": "^16.11.0",
 		"react-hook-form": "^3.26.5",
 		"react-router-dom": "^5.1.2",
-		"styled-components": "^4.4.1"
+		"styled-components": "^4.4.1",
+		"yup": "^0.27.0"
 	}
 }

@@ -1,39 +1,54 @@
 import React from 'react';
 
+import { ArrayHelpers, FieldProps } from 'formik';
 import { Collapse } from 'antd';
 
-import { FormArrayField, BasicFormArrayFieldProps } from '../array';
-import { DeleteIcon } from '../helpers';
+import { FormArrayField } from '../array';
+import { BasicFormArrayFieldProps, FormArrayFieldProps, DeleteIcon, ArrayItemProps } from '../helpers';
 
 export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
-	renderElement: Function;
+	renderElement: (props: ArrayItemProps) => JSX.Element;
+	defaultValue: any;
 }
 
-function renderItem(value, i, onRemove) {
-	const { name, renderElement } = this;
+function renderPanel(opts) {
+	const { item, value, index, helpers } = opts;
+	const onRemove = () => helpers.remove(index);
 
 	const panelProps = {
-		key: `${name}-${i}`,
-		header: 'Test',
+		key: `${name}-${index}`,
+		header: index,
 		extra: <DeleteIcon onClick={onRemove} />,
+		children: item,
 	};
 
-	// prettier-ignore
+	return <Collapse.Panel {...panelProps} />;
+}
+
+function renderItems(props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) {
+	const { name, renderItem, ItemComp } = props;
+	const values = fieldProps.field.value;
+
 	return (
-		<Collapse.Panel {...panelProps}>
-			{renderElement(value, i)}
-		</Collapse.Panel>
+		<Collapse>
+			{values.map((value, index) => {
+				const opts = { name, index, ItemComp, helpers };
+				const item = renderItem(opts);
+
+				return renderPanel({ value, item, index, helpers });
+			})}
+		</Collapse>
 	);
 }
 
 export function FormObjectArrayField(props: FormObjectArrayFieldProps) {
-	const {} = props;
+	const { renderElement } = props;
 
-	const fieldProps = {
+	const arrayFieldProps: FormArrayFieldProps = {
 		...props,
-		wrapperComp: Collapse,
-		ItemComp: false,
+		renderItems,
+		ItemComp: (props) => renderElement(props),
 	};
 
-	return <FormArrayField {...fieldProps} />;
+	return <FormArrayField {...arrayFieldProps} />;
 }

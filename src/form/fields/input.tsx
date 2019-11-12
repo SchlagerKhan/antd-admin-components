@@ -1,40 +1,34 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useField } from 'formik';
 
-import { Input, InputNumber } from 'antd';
+import { Input } from 'antd';
 import { InputProps, TextAreaProps } from 'antd/lib/input';
 
 import { FormField, BasicFormFieldProps } from './field';
-import { InputNumberProps } from 'antd/lib/input-number';
 
-type FormInputFieldProps = BasicFormFieldProps & {};
+type FormInputFieldProps = BasicFormFieldProps & InputProps & {};
 
-function renderInput(props: FormInputFieldProps, Comp: any, getValFn: Function) {
-	const { name, label, registerOpts, ...inputProps } = props;
-	const { register, setValue } = useFormContext();
+function renderInput(props: FormInputFieldProps, InputComp: React.ComponentType) {
+	const { name, label, ...restProps } = props;
+	const [field] = useField(name);
 
-	register({ name }, registerOpts);
-	const handleChange = (arg) => setValue(name, getValFn(arg), true);
+	const inputProps = Object.assign({}, field, restProps);
 
 	return (
 		<FormField label={label} name={name}>
-			<Comp name={name} {...inputProps} onChange={handleChange} />
+			<InputComp {...inputProps} />
 		</FormField>
 	);
 }
 
-/* VALUE FUNCTIONS */
-const getTargetVal = (e) => e.target.value;
-const identity = (i) => i;
-
 /* TEXT */
 export type FormTextFieldProps = FormInputFieldProps & InputProps & {};
-export const FormTextField = (props: FormTextFieldProps) => renderInput(props, Input, getTargetVal);
+export const FormTextField = (props: FormTextFieldProps) => renderInput(props, Input);
 
 /* TEXT AREA */
 export type FormTextAreaFieldProps = FormInputFieldProps & TextAreaProps & {};
-export const FormTextAreaField = (props: FormTextAreaFieldProps) => renderInput(props, Input.TextArea, getTargetVal);
+export const FormTextAreaField = (props: FormTextAreaFieldProps) => renderInput(props, Input.TextArea);
 
 /* NUMBER */
-export type FormNumberFieldProps = FormInputFieldProps & InputNumberProps & {};
-export const FormNumberField = (props: FormNumberFieldProps) => renderInput(props, InputNumber, identity);
+export type FormNumberFieldProps = FormInputFieldProps & InputProps & {};
+export const FormNumberField = (props: FormNumberFieldProps) => renderInput({ ...props, type: 'number' }, Input);
