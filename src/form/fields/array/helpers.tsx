@@ -26,7 +26,7 @@ export interface BasicFormArrayFieldProps extends BasicFormFieldProps {}
 
 export interface ArrayItemProps extends FieldProps {
 	index: number;
-	onRemove: (index: number) => void;
+	removeItem: () => void;
 }
 
 /* COMPONENTS */

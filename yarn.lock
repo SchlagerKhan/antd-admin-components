@@ -1308,6 +1308,11 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
+"@schlagerkhan/prettier-config@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@schlagerkhan/prettier-config/-/prettier-config-0.0.1.tgz#ca9951d25daa4f66ff2d9aa5fdc4c15c346b4230"
+  integrity sha512-hjzmMAYKEewLHU7D8pbmjt0Cgf0BDIVAKKb2wuXcKIFiDzg9Ct9h12VizCSgr1REuygR4lU3/4BGPdl1QLPfbg==
+
 "@storybook/addon-actions@^5.2.5":
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-5.2.6.tgz#4fe411fc3bdb1d44058f23fbc8eb8d1bac29d521"

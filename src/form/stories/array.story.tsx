@@ -1,25 +1,39 @@
 import React from 'react';
-import { useFormik, FieldInputProps } from 'formik';
+import { useFormik } from 'formik';
 
 import { Form } from '../form';
-import { FormTextArrayField, FormObjectArrayField } from '../fields';
+import { FormTextArrayField, FormObjectArrayField, FormTextField } from '../fields';
 import { ArrayItemProps } from '../fields/array/helpers';
 
 import { Wrapper, Item, Title, onSubmit } from './helpers';
 
-function renderElement(props: ArrayItemProps) {
-	const { value } = props.field;
+function ObjectItem(props: ArrayItemProps) {
+	const { name } = props.field;
 
-	return <p>{value.name + ' ' + value.meta}</p>;
+	return (
+		<>
+			<FormTextField label='Name' name={`${name}.name`} />
+			<FormTextField label='Meta' name={`${name}.meta`} />
+		</>
+	);
 }
 
 export function ArrayForm() {
-	const initialValues = { textArray: ['Test', 'Testing'], objectArray: [{ name: 'Test', meta: 'Meta' }] };
+	const initialValues = {
+		textArray: ['Test', 'Testing'],
+		objectArray: [{ name: 'Test', meta: 'Meta' }],
+	};
 	const formik = useFormik({ initialValues, onSubmit });
 
-	const defaultObject = {
-		name: 'New name',
-		meta: 'New meta',
+	const objectProps = {
+		label: 'Object array',
+		name: 'objectArray',
+		item: ObjectItem,
+		itemHeader: (val) => val.name,
+		defaultValue: {
+			name: 'New name',
+			meta: 'New meta',
+		},
 	};
 
 	return (
@@ -28,7 +42,7 @@ export function ArrayForm() {
 				<Title>Array form</Title>
 				<Form formik={formik} withReset>
 					<FormTextArrayField label='Text array' name='textArray' />
-					<FormObjectArrayField label='Object array' name='objectArray' renderElement={renderElement} defaultValue={defaultObject} />
+					<FormObjectArrayField {...objectProps} />
 				</Form>
 			</Item>
 		</Wrapper>

@@ -4,14 +4,7 @@ import styled from 'styled-components';
 
 import { Input as AntInput } from 'antd';
 
-import { DeleteIcon } from '../helpers';
-import { FieldInputProps } from 'formik';
-
-/* TYPES */
-interface ItemProps {
-	field: FieldInputProps<any>;
-	onRemove: (index: number) => void;
-}
+import { DeleteIcon, ArrayItemProps } from '../helpers';
 
 /* COMPONENTS */
 const Wrapper = styled.div`
@@ -43,13 +36,13 @@ const Input = styled(AntInput)`
 `;
 
 /* RENDERING */
-export function Item(props: ItemProps) {
-	const { field, onRemove } = props;
+export function Item(props: ArrayItemProps) {
+	const { field, removeItem } = props;
 
 	return (
 		<Wrapper>
 			<Input {...field} />
-			<DeleteIcon onClick={onRemove} />
+			<DeleteIcon onClick={removeItem} />
 		</Wrapper>
 	);
 }
