@@ -1,20 +1,20 @@
 import { noop } from 'lodash';
 
 import React, { useState } from 'react';
-
-import useForm from 'react-hook-form';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { Form, FormTextField } from '../../form';
-import { renderTitle, SubmitButton } from './components';
+import { renderTitle } from './components';
 
 export interface AuthFormTemplateProps {
 	title?: string;
 	buttonText: string;
 	onAction: (values: any) => void | Promise<void>;
-	onError?: (err, form) => void;
+	onError?: (err, values) => void;
 }
 
-function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
+function createOnSubmit(props: AuthFormTemplateProps, setLoading) {
 	const { onAction, onError } = props;
 
 	return async (values) => {
@@ -23,7 +23,7 @@ function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
 		try {
 			await onAction(values);
 		} catch (err) {
-			onError(err, form);
+			onError(err, values);
 		} finally {
 			setLoading(false);
 		}
@@ -33,23 +33,28 @@ function createOnSubmit(props: AuthFormTemplateProps, form, setLoading) {
 export function AuthFormTemplate(props: AuthFormTemplateProps) {
 	const { buttonText } = props;
 
-	const form = useForm();
-
 	const [loading, setLoading] = useState(false);
-	const onSubmit = createOnSubmit(props, form, setLoading);
+	const onSubmit = createOnSubmit(props, setLoading);
 
-	return null;
+	const formik = useFormik({
+		initialValues: {},
+		validationSchema: Yup.object().shape({
+			email: Yup.string()
+				.required('Required')
+				.email('Invalid email'),
+			password: Yup.string().required('Required'),
+		}),
+		onSubmit,
+	});
 
-	// return (
-	// 	<Form form={form} onSubmit={onSubmit}>
-	// 		{renderTitle(props)}
+	return (
+		<Form formik={formik} submitText={buttonText} submitLoading={loading}>
+			{renderTitle(props)}
 
-	// 		<FormTextField name='email' placeholder='Email' />
-	// 		<FormTextField name='password' placeholder='Password' type='password' registerOpts={{ required: 'Password required' }} />
-
-	// 		<SubmitButton loading={loading}>{buttonText}</SubmitButton>
-	// 	</Form>
-	// );
+			<FormTextField name='email' placeholder='Email' />
+			<FormTextField name='password' placeholder='Password' type='password' />
+		</Form>
+	);
 }
 
 AuthFormTemplate.defaultProps = {

@@ -19,7 +19,9 @@ export interface FormProps extends Partial<HTMLFormElement> {
 	formik: FormikProps<any>;
 	fields?: FormFieldTemplateElement[];
 	withReset?: boolean;
+	withSubmit?: boolean;
 	submitText?: any;
+	submitLoading?: boolean;
 	children?: any;
 }
 
@@ -58,12 +60,12 @@ function renderFields(props: FormProps) {
 }
 
 function renderButtons(props: FormProps) {
-	const { submitText, withReset } = props;
+	const { withReset, withSubmit, submitText, submitLoading } = props;
 
 	return (
 		<>
 			{withReset && <ResetButton>Reset</ResetButton>}
-			<SubmitButton>{submitText}</SubmitButton>
+			{withSubmit && <SubmitButton loading={submitLoading}>{submitText}</SubmitButton>}
 		</>
 	);
 }
@@ -85,5 +87,6 @@ export function Form(props: FormProps) {
 
 Form.defaultProps = {
 	fields: [],
+	withSubmit: true,
 	submitText: 'Save',
 };

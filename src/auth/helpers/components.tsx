@@ -4,11 +4,6 @@ import styled from 'styled-components';
 
 import { Button, Card as AntCard } from 'antd';
 
-export const SubmitButton = styled(Button).attrs({
-	htmlType: 'submit',
-	block: true,
-})``;
-
 export const ToggleButton = styled(Button).attrs({
 	block: true,
 	type: 'link',

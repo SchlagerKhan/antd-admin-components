@@ -1,7 +1,7 @@
 import { noop } from 'lodash';
 
 import React from 'react';
-import useForm from 'react-hook-form';
+import { useFormik } from 'formik';
 
 import { Form, FormFieldTemplateElement } from '../form';
 
@@ -14,20 +14,20 @@ function getDefaultValues(fields: FormFieldTemplateElement[]) {
 	}, {});
 }
 
-function createOnOk(opts, form) {
+function createOnOk(opts, formik) {
 	const { onOk = noop } = opts;
 
-	return () => onOk(form.getValues());
+	return () => onOk(formik.values);
 }
 
-function createPrompt(promptState, form, defaultValues) {
+function createPrompt(promptState, formik) {
 	const { prompt } = promptState;
 
 	return async () => {
 		const isOk = await prompt();
-		const values = isOk ? form.getValues() : null;
+		const values = isOk ? formik.values : null;
 
-		form.reset(defaultValues);
+		formik.resetForm();
 
 		return values;
 	};
@@ -35,17 +35,15 @@ function createPrompt(promptState, form, defaultValues) {
 
 /* RENDERING */
 export function useFormPrompt(fields: FormFieldTemplateElement[], opts: BasePromptOpts) {
-	const defaultValues = getDefaultValues(fields);
-	const form = useForm({ defaultValues });
+	const initialValues = getDefaultValues(fields);
+	const formik = useFormik({ initialValues, onSubmit: null });
 
-	return null;
+	const onOk = createOnOk(opts, formik);
+	const children = <Form formik={formik} fields={fields} withSubmit={false} />;
+	const promptState = usePrompt({ ...opts, onOk, children });
 
-	// const onOk = createOnOk(opts, form);
-	// const children = <Form form={form} fields={fields} />;
-	// const promptState = usePrompt({ ...opts, onOk, children });
+	const prompt = createPrompt(promptState, formik);
+	const { content } = promptState;
 
-	// const prompt = createPrompt(promptState, form, defaultValues);
-	// const { content } = promptState;
-
-	// return { prompt, content };
+	return { prompt, content };
 }

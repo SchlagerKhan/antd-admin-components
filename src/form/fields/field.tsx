@@ -50,12 +50,11 @@ function renderLabel(props: FormFieldProps) {
 
 function renderError(props: FormFieldProps) {
 	const { hideError, name } = props;
+	const [_, { touched, error }] = useField(name);
 
-	if (hideError) {
+	if (hideError || !touched) {
 		return null;
 	}
-
-	const [_, { error }] = useField(name);
 
 	return <Error error={error} />;
 }
