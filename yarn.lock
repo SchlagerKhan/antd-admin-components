@@ -4932,6 +4932,11 @@ format@^0.2.2:
   resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"
   integrity sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=
 
+formik-antd@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/formik-antd/-/formik-antd-1.6.0.tgz#1a58b6d76ee07423c6fbdf7ba5af1f2cabfd0554"
+  integrity sha512-sEaf5glPWKvHm0/OSoR4qVzUcztu0pQo4mYULKFLu0XgP2eMBDSo/9cbgH+eZkH6seIgyBepK1D8Lo0w30Uq+g==
+
 formik@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.0.3.tgz#7cf088b1a6e0ba21782b73a90453a78426959168"

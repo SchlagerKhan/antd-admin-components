@@ -1,22 +1,17 @@
 import React from 'react';
-import { useField } from 'formik';
 
-import { Input } from 'antd';
-import { InputProps, TextAreaProps } from 'antd/lib/input';
+import { Input, InputNumber, PasswordProps, InputProps, TextAreaProps, InputNumberProps } from 'formik-antd';
 
 import { FormField, BasicFormFieldProps } from './field';
 
 type FormInputFieldProps = BasicFormFieldProps & InputProps & {};
 
 function renderInput(props: FormInputFieldProps, InputComp: React.ComponentType) {
-	const { name, label, ...restProps } = props;
-	const [field] = useField(name);
-
-	const inputProps = Object.assign({}, field, restProps);
+	const { name, label } = props;
 
 	return (
-		<FormField label={label} name={name}>
-			<InputComp {...inputProps} />
+		<FormField name={name} label={label}>
+			<InputComp {...props} />
 		</FormField>
 	);
 }
@@ -25,10 +20,13 @@ function renderInput(props: FormInputFieldProps, InputComp: React.ComponentType)
 export type FormTextFieldProps = FormInputFieldProps & InputProps & {};
 export const FormTextField = (props: FormTextFieldProps) => renderInput(props, Input);
 
+export type FormPasswordFieldProps = FormInputFieldProps & PasswordProps & {};
+export const FormPasswordProps = (props: FormPasswordFieldProps) => renderInput(props, Input);
+
 /* TEXT AREA */
 export type FormTextAreaFieldProps = FormInputFieldProps & TextAreaProps & {};
 export const FormTextAreaField = (props: FormTextAreaFieldProps) => renderInput(props, Input.TextArea);
 
 /* NUMBER */
-export type FormNumberFieldProps = FormInputFieldProps & InputProps & {};
-export const FormNumberField = (props: FormNumberFieldProps) => renderInput({ ...props, type: 'number' }, Input);
+export type FormNumberFieldProps = InputNumberProps & InputProps & {};
+export const FormNumberField = (props: FormNumberFieldProps) => renderInput(props, InputNumber);

@@ -1,11 +1,13 @@
-import { BasePromptOpts } from './prompt';
-import { useFormPrompt } from './form';
+import { FormFieldTemplateElement } from '../form';
 
-export function useTextPrompt(inputs: string[], opts: BasePromptOpts) {
-	const fields = inputs.map((name) => ({
+import { BasicPromptOpts } from './prompt';
+import { formPrompt } from './form';
+
+export function textPrompt(inputs: string[], opts: BasicPromptOpts) {
+	const fields: FormFieldTemplateElement[] = inputs.map((name) => ({
 		name,
 		placeholder: name,
 	}));
 
-	return useFormPrompt(fields, opts);
+	return formPrompt(fields, opts);
 }
