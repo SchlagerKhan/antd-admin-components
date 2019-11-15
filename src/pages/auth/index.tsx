@@ -1,21 +1,17 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import { Layout } from '../../layout';
 import { AuthCard, LoginCard, LoginCardProps, RegisterCard, RegisterCardProps } from '../../auth';
 
-enum AuthPageMode {
-	login = 'login',
-	register = 'register',
-	both = 'both',
-}
-
 export interface AuthPageProps {
-	mode: AuthPageMode;
+	mode?: 'login' | 'register' | 'both';
 	title?: string;
-	onLogin: LoginCardProps['onLogin'];
-	onRegister: RegisterCardProps['onRegister'];
+	isLoggedIn?: boolean;
+	onLogin?: LoginCardProps['onLogin'];
+	onRegister?: RegisterCardProps['onRegister'];
 }
 
 const Wrapper = styled(Layout)`
@@ -28,11 +24,11 @@ function renderContent(props: AuthPageProps) {
 	const { mode, title, onLogin, onRegister } = props;
 
 	switch (mode) {
-		case AuthPageMode.login:
+		case 'login':
 			return <LoginCard title={title} onLogin={onLogin} />;
-		case AuthPageMode.register:
+		case 'register':
 			return <RegisterCard title={title} onRegister={onRegister} />;
-		case AuthPageMode.both:
+		case 'both':
 			return <AuthCard title={title} onLogin={onLogin} onRegister={onRegister} />;
 	}
 
@@ -40,9 +36,13 @@ function renderContent(props: AuthPageProps) {
 }
 
 export function AuthPage(props: AuthPageProps) {
+	if (props.isLoggedIn === true) {
+		return <Redirect to='/' />;
+	}
+
 	return <Wrapper>{renderContent(props)}</Wrapper>;
 }
 
 AuthPage.defaultProps = {
-	mode: AuthPageMode.both,
+	mode: 'both',
 };

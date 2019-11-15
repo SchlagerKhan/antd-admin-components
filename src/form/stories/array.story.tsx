@@ -5,7 +5,7 @@ import { Form } from '../form';
 import { FormTextArrayField, FormObjectArrayField, FormTextField } from '../fields';
 import { ArrayItemProps } from '../fields/array/helpers';
 
-import { Wrapper, Item, Title, onSubmit } from './helpers';
+import { Wrapper, Item, Title, onSubmit } from './helpers.story';
 
 function ObjectItem(props: ArrayItemProps) {
 	const { name } = props.field;

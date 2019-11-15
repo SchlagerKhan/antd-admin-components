@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Layout, Header, Menu, Content, MenuItem } from '../../layout';
 
@@ -11,11 +11,12 @@ type PageItems = PageItem[];
 
 export interface AppPageProps {
 	items: PageItems;
+	isLoggedIn?: boolean;
 
 	renderHeader?: () => JSX.Element;
-	renderMenu: (items: PageItems) => JSX.Element;
+	renderMenu?: (items: PageItems) => JSX.Element;
 	renderContent?: (routes: JSX.Element, items: PageItems) => JSX.Element;
-	renderRoutes: (items: PageItems) => JSX.Element;
+	renderRoutes?: (items: PageItems) => JSX.Element;
 }
 
 /* RENDERING */
@@ -42,8 +43,12 @@ function defaultRenderContent(routes: JSX.Element, items: PageItems) {
 }
 
 export function AppPage(props: AppPageProps) {
-	const { items, renderHeader, renderMenu, renderContent, renderRoutes } = props;
+	const { items, isLoggedIn, renderHeader, renderMenu, renderContent, renderRoutes } = props;
 	const routes = renderRoutes(items);
+
+	if (isLoggedIn === false) {
+		return <Redirect to='/auth' />;
+	}
 
 	return (
 		<Layout>

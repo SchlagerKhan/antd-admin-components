@@ -1,14 +1,14 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"module": "amd",
+		"module": "commonjs",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"declaration": true,
 		"sourceMap": true,
-		"outFile": "./lib/index.js",
+		"outDir": "./lib",
 		"jsx": "react",
 		"lib": ["esnext", "dom"],
 		"baseUrl": ".",
@@ -17,5 +17,5 @@
 		}
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", "lib"]
+	"exclude": ["node_modules", "lib", "**/*.stories.tsx", "**/*.story.tsx"]
 }

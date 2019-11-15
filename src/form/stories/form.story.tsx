@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Form, FormFieldTemplateElement } from '../form';
 import { FormTextAreaField, FormNumberField } from '../fields';
 
-import { Wrapper, Item, Title, onSubmit } from './helpers';
+import { Wrapper, Item, Title, onSubmit } from './helpers.story';
 
 const FIELDS: FormFieldTemplateElement[] = [
 	{

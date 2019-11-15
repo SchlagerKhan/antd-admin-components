@@ -4,3 +4,4 @@ export * from './layout';
 export * from './prompt';
 export * from './table';
 export * from './utils';
+export * from './pages';

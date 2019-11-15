@@ -6,7 +6,7 @@ import { EditContent } from '../index';
 import { EditContentOverview } from '../overview';
 import { EditContentForm } from '../form';
 
-import { root, form, overview } from './helpers';
+import { root, form, overview } from './helpers.story';
 
 const { NarrowWrapper, Wrapper, Item, Title } = styled.SB;
 

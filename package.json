@@ -21,7 +21,7 @@
 	],
 	"prettier": "@schlagerkhan/prettier-config",
 	"scripts": {
-		"prepublish": "yarn build",
+		"prepare": "yarn build",
 		"---": "",
 		"start": "npx tsc -w",
 		"build": "npx tsc",

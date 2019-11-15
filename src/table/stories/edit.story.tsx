@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { EditTable as TableComp } from '../index';
-import { DATA, COLUMNS, onEdit } from './helpers';
+import { DATA, COLUMNS, onEdit } from './helpers.story';
 
 const { Wrapper, Item, Title } = styled.SB;
 
