@@ -1,19 +1,21 @@
 import React from 'react';
-import useForm from 'react-hook-form';
+
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { Form, FormFieldTemplateElement } from '../form';
-import { FormNumberField, FormTextAreaField } from '../fields';
+import { FormTextAreaField, FormNumberField } from '../fields';
 
 import { Wrapper, Item, Title, onSubmit } from './helpers';
 
 const FIELDS: FormFieldTemplateElement[] = [
 	{
-		name: 'text1',
-		label: 'Text 1',
+		name: 'text',
+		label: 'Text',
 	},
 	{
-		name: 'text2',
-		label: 'Text 2',
+		name: 'email',
+		label: 'Email',
 	},
 	{
 		name: 'num1',
@@ -23,16 +25,23 @@ const FIELDS: FormFieldTemplateElement[] = [
 ];
 
 export function RegularForm() {
-	const form = useForm();
-
-	form.setError('text2', 'Error', 'Error message');
+	const formik = useFormik({
+		initialValues: {},
+		validationSchema: Yup.object().shape({
+			email: Yup.string()
+				.email('Invalid email')
+				.required('Required'),
+			extra: Yup.string().required('Required'),
+		}),
+		onSubmit,
+	});
 
 	return (
 		<Wrapper>
 			<Item>
 				<Title>Regular form</Title>
-				<Form form={form} fields={FIELDS} onSubmit={onSubmit}>
-					<FormTextAreaField label='Text area (required)' name='extraText' registerOpts={{ required: 'Required' }} />
+				<Form formik={formik} fields={FIELDS} withReset>
+					<FormTextAreaField label='Text area (required)' name='extra' />
 				</Form>
 			</Item>
 		</Wrapper>

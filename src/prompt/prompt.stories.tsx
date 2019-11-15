@@ -4,9 +4,7 @@ import styled from 'styled-components';
 
 import { Button as AntButton } from 'antd';
 
-import { usePrompt } from './prompt';
-import { useTextPrompt } from './text';
-import { useFormPrompt } from './form';
+import { prompt, formPrompt, textPrompt } from './index';
 
 const { Wrapper, Item, Title } = styled.SB;
 
@@ -30,9 +28,9 @@ const FIELDS = [
 	},
 ];
 
-function doPrompt(promptState) {
+function doPrompt(prompt) {
 	return async () => {
-		const res = await promptState.prompt();
+		const res = await prompt();
 
 		console.log('Prompt response', res);
 	};
@@ -45,21 +43,18 @@ function onOk(values) {
 export const AllPrompts = () => {
 	const title = 'Promp title';
 
-	const reg = usePrompt({ title, onOk, children: <div>Prompt content</div> });
-	const text = useTextPrompt(['alias'], { title, onOk });
-	const form = useFormPrompt(FIELDS, { title, onOk });
+	const reg = () => prompt({ title, onOk, content: <div>Prompt content</div> });
+	const text = () => textPrompt(['alias'], { title, onOk });
+	const form = () => formPrompt(FIELDS, { title, onOk });
 
 	return (
 		<Wrapper>
-			{reg.content}
-			{text.content}
-			{form.content}
 			<Item>
 				<Title>Prompts</Title>
 				<Content>
 					<Button onClick={doPrompt(reg)}>Regular</Button>
-					<Button onClick={doPrompt(text)}>Texts</Button>
 					<Button onClick={doPrompt(form)}>Form</Button>
+					<Button onClick={doPrompt(text)}>Text</Button>
 				</Content>
 			</Item>
 		</Wrapper>

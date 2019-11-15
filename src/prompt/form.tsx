@@ -1,11 +1,9 @@
 import { noop } from 'lodash';
 
 import React from 'react';
-import useForm from 'react-hook-form';
 
 import { Form, FormFieldTemplateElement } from '../form';
-
-import { usePrompt, BasePromptOpts } from './prompt';
+import { BasicPromptOpts, prompt, PromptOpts } from './prompt';
 
 function getDefaultValues(fields: FormFieldTemplateElement[]) {
 	return fields.reduce((sum, field) => {
@@ -14,36 +12,39 @@ function getDefaultValues(fields: FormFieldTemplateElement[]) {
 	}, {});
 }
 
-function createOnOk(opts, form) {
+function createOnOk(opts, formikRef) {
 	const { onOk = noop } = opts;
 
-	return () => onOk(form.getValues());
-}
+	return () => {
+		const { values } = formikRef.formik;
 
-function createPrompt(promptState, form, defaultValues) {
-	const { prompt } = promptState;
-
-	return async () => {
-		const isOk = await prompt();
-		const values = isOk ? form.getValues() : null;
-
-		form.reset(defaultValues);
-
-		return values;
+		return onOk(values);
 	};
 }
 
+async function doPrompt(opts: PromptOpts, formikRef) {
+	const isOk = await prompt(opts);
+	const { values } = formikRef.formik;
+
+	return isOk ? values : null;
+}
+
 /* RENDERING */
-export function useFormPrompt(fields: FormFieldTemplateElement[], opts: BasePromptOpts) {
-	const defaultValues = getDefaultValues(fields);
-	const form = useForm({ defaultValues });
+export function formPrompt(fields: FormFieldTemplateElement[], opts: BasicPromptOpts) {
+	const formikRef = {};
+	const formProps = {
+		fields,
+		formikRef,
+		formikConfig: {
+			initialValues: getDefaultValues(fields),
+			onSubmit: null,
+		},
+		withSubmit: false,
+	};
+	const content = <Form {...formProps} />;
 
-	const onOk = createOnOk(opts, form);
-	const children = <Form form={form} fields={fields} />;
-	const promptState = usePrompt({ ...opts, onOk, children });
+	const onOk = createOnOk(opts, formikRef);
+	const promptOpts = { ...opts, onOk, content };
 
-	const prompt = createPrompt(promptState, form, defaultValues);
-	const { content } = promptState;
-
-	return { prompt, content };
+	return doPrompt(promptOpts, formikRef);
 }

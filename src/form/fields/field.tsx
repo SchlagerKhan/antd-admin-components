@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { useFormContext } from 'react-hook-form';
+import { useField, useFormikContext } from 'formik';
 
 import styled from 'styled-components';
 
 import { Error } from './error';
 
+/** TYPES */
 export interface FormFieldProps {
 	name: string;
 	label?: any;
@@ -16,11 +17,9 @@ export interface FormFieldProps {
 export interface BasicFormFieldProps {
 	name: FormFieldProps['name'];
 	label?: FormFieldProps['label'];
-	placeholder?: string;
-	registerOpts?: any;
-	error?: any;
 }
 
+/** COMPONENTS */
 const Wrapper = styled.div`
 	width: 100% !important;
 
@@ -34,7 +33,10 @@ const Label = styled.label`
 	font-weight: bold;
 `;
 
-function renderLabel(label, name) {
+/* RENDERING */
+function renderLabel(props: FormFieldProps) {
+	const { name, label } = props;
+
 	if (!label) {
 		return null;
 	}
@@ -49,22 +51,23 @@ function renderLabel(label, name) {
 function renderError(props: FormFieldProps) {
 	const { hideError, name } = props;
 
-	if (hideError) {
-		return null;
+	const [_, { touched, error }] = useField(name);
+	const { submitCount } = useFormikContext();
+	const forceError = submitCount > 0 || touched;
+
+	if (!hideError && forceError) {
+		return <Error error={error} />;
 	}
 
-	const { errors } = useFormContext();
-	const error = errors[name];
-
-	return <Error error={error} />;
+	return null;
 }
 
 export function FormField(props: FormFieldProps) {
-	const { label, name, children, ...wrapperProps } = props;
+	const { children } = props;
 
 	return (
-		<Wrapper {...wrapperProps}>
-			{renderLabel(label, name)}
+		<Wrapper>
+			{renderLabel(props)}
 			{children}
 			{renderError(props)}
 		</Wrapper>

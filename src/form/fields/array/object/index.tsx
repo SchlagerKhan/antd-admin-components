@@ -1,39 +1,69 @@
 import React from 'react';
 
+import { ArrayHelpers, FieldProps } from 'formik';
 import { Collapse } from 'antd';
 
-import { FormArrayField, BasicFormArrayFieldProps } from '../array';
-import { DeleteIcon } from '../helpers';
+import { FormArrayField } from '../array';
+import { BasicFormArrayFieldProps, FormArrayFieldProps, DeleteIcon } from '../helpers';
 
 export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
-	renderElement: Function;
+	item: any;
+	itemHeader?: (value: any, index: number) => any;
+	defaultValue: any;
 }
 
-function renderItem(value, i, onRemove) {
-	const { name, renderElement } = this;
+interface RenderPanelOpts {
+	name: string;
+	index: number;
+	header: any;
+	item: any;
+	helpers: ArrayHelpers;
+}
+
+function renderPanel(opts: RenderPanelOpts) {
+	const { item, index, helpers, header } = opts;
+	const onRemove = () => helpers.remove(index);
 
 	const panelProps = {
-		key: `${name}-${i}`,
-		header: 'Test',
+		key: `${name}-${index}`,
+		header,
 		extra: <DeleteIcon onClick={onRemove} />,
+		children: item,
 	};
 
-	// prettier-ignore
+	return <Collapse.Panel {...panelProps} />;
+}
+
+function renderItems(props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) {
+	const { itemHeader } = this;
+	const { name, renderItem, ItemComp } = props;
+	const values = fieldProps.field.value;
+
 	return (
-		<Collapse.Panel {...panelProps}>
-			{renderElement(value, i)}
-		</Collapse.Panel>
+		<Collapse>
+			{values.map((value, index) => {
+				const opts = { name, index, ItemComp, helpers };
+				const item = renderItem(opts);
+				const header = itemHeader(value, index);
+
+				return renderPanel({ name, index, header, item, helpers });
+			})}
+		</Collapse>
 	);
 }
 
 export function FormObjectArrayField(props: FormObjectArrayFieldProps) {
-	const {} = props;
+	const { item } = props;
 
-	const fieldProps = {
+	const arrayFieldProps: FormArrayFieldProps = {
 		...props,
-		wrapperComp: Collapse,
-		ItemComp: false,
+		renderItems: renderItems.bind(props),
+		ItemComp: item,
 	};
 
-	return <FormArrayField {...fieldProps} />;
+	return <FormArrayField {...arrayFieldProps} />;
 }
+
+FormObjectArrayField.defaultProps = {
+	itemHeader: (_, index) => index,
+};

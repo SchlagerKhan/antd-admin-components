@@ -4,16 +4,16 @@ import styled from 'styled-components';
 
 import { Typography } from 'antd';
 
+interface ErrorProps {
+	error: string;
+}
+
 const Text = styled(Typography.Text).attrs({
 	type: 'danger',
 })``;
 
-export function Error({ error }) {
-	const { message } = error;
+export function Error(props: ErrorProps) {
+	const { error } = props;
 
-	return message ? <Text>{message}</Text> : null;
+	return error ? <Text>{error}</Text> : null;
 }
-
-Error.defaultProps = {
-	error: {},
-};

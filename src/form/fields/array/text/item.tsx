@@ -1,16 +1,10 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import styled from 'styled-components';
 
-import { DeleteIcon } from '../helpers';
+import { Input as AntInput } from 'antd';
 
-/* TYPES */
-interface ItemProps {
-	name: string;
-	index: number;
-	onRemove: (index: number) => void;
-}
+import { DeleteIcon, ArrayItemProps } from '../helpers';
 
 /* COMPONENTS */
 const Wrapper = styled.div`
@@ -18,10 +12,7 @@ const Wrapper = styled.div`
 	align-items: center;
 `;
 
-const Input = styled.input.attrs({
-	/* Antd Inputs doesn't play well with react-hook-form so we use native ones with ant styling */
-	className: 'ant-input',
-})`
+const Input = styled(AntInput)`
 	position: relative;
 	margin-right: 4px;
 
@@ -45,21 +36,13 @@ const Input = styled.input.attrs({
 `;
 
 /* RENDERING */
-export function Item(props: ItemProps) {
-	const { name, index, onRemove } = props;
-	const { register } = useFormContext();
-
-	const handleRemove = () => onRemove(index);
-
-	const inputProps = {
-		name: `${name}[${index}]`,
-		ref: register,
-	};
+export function Item(props: ArrayItemProps) {
+	const { field, removeItem } = props;
 
 	return (
 		<Wrapper>
-			<Input {...inputProps} />
-			<DeleteIcon onClick={handleRemove} />
+			<Input {...field} />
+			<DeleteIcon onClick={removeItem} />
 		</Wrapper>
 	);
 }

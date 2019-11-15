@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
-import useForm from 'react-hook-form';
-
-import { Button } from 'antd';
+import React from 'react';
+import { useFormik } from 'formik';
 
 import { Form } from '../form';
-import { FormTextArrayField, FormObjectArrayField } from '../fields';
+import { FormTextArrayField, FormObjectArrayField, FormTextField } from '../fields';
+import { ArrayItemProps } from '../fields/array/helpers';
 
 import { Wrapper, Item, Title, onSubmit } from './helpers';
 
-function renderElement(val) {
-	return <p>{val.text + ' ' + val.meta}</p>;
+function ObjectItem(props: ArrayItemProps) {
+	const { name } = props.field;
+
+	return (
+		<>
+			<FormTextField label='Name' name={`${name}.name`} />
+			<FormTextField label='Meta' name={`${name}.meta`} />
+		</>
+	);
 }
 
 export function ArrayForm() {
-	const defaultValues = { textArray: ['Test', 'Testing'] };
-	const form = useForm({ defaultValues });
+	const initialValues = {
+		textArray: ['Test', 'Testing'],
+		objectArray: [{ name: 'Test', meta: 'Meta' }],
+	};
+	const formik = useFormik({ initialValues, onSubmit });
 
-	function reset() {
-		form.reset(defaultValues);
-	}
+	const objectProps = {
+		label: 'Object array',
+		name: 'objectArray',
+		item: ObjectItem,
+		itemHeader: (val) => val.name,
+		defaultValue: {
+			name: 'New name',
+			meta: 'New meta',
+		},
+	};
 
 	return (
 		<Wrapper>
 			<Item>
 				<Title>Array form</Title>
-				<Form form={form} onSubmit={onSubmit} onReset={reset}>
+				<Form formik={formik} withReset>
 					<FormTextArrayField label='Text array' name='textArray' />
-					{/* <FormObjectArrayField label='Object array' name='objectArray' renderElement={renderElement} /> */}
+					<FormObjectArrayField {...objectProps} />
 				</Form>
 			</Item>
 		</Wrapper>
