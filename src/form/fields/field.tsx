@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 
 import styled from 'styled-components';
 
@@ -50,13 +50,16 @@ function renderLabel(props: FormFieldProps) {
 
 function renderError(props: FormFieldProps) {
 	const { hideError, name } = props;
-	const [_, { touched, error }] = useField(name);
 
-	if (hideError || !touched) {
-		return null;
+	const [_, { touched, error }] = useField(name);
+	const { submitCount } = useFormikContext();
+	const forceError = submitCount > 0 || touched;
+
+	if (!hideError && forceError) {
+		return <Error error={error} />;
 	}
 
-	return <Error error={error} />;
+	return null;
 }
 
 export function FormField(props: FormFieldProps) {

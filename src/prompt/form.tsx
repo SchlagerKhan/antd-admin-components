@@ -43,10 +43,8 @@ export function formPrompt(fields: FormFieldTemplateElement[], opts: BasicPrompt
 	};
 	const content = <Form {...formProps} />;
 
-	console.log(formikRef);
-
 	const onOk = createOnOk(opts, formikRef);
-
 	const promptOpts = { ...opts, onOk, content };
+
 	return doPrompt(promptOpts, formikRef);
 }

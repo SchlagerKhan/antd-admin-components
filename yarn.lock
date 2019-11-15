@@ -1874,6 +1874,23 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-router-dom@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.2.tgz#853f229f1f297513c0be84f7c914a08b778cfdf5"
+  integrity sha512-kRx8hoBflE4Dp7uus+j/0uMHR5uGTAvQtc4A3vOTWKS+epe0leCuxEx7HNT7XGUd1lH53/moWM51MV2YUyhzAg==
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.3.tgz#7c7ca717399af64d8733d8cb338dd43641b96f2d"
+  integrity sha512-0gGhmerBqN8CzlnDmSgGNun3tuZFXerUclWkqEhozdLaJtfcJRUTGkKaEKk+/MpHd1KDS1+o2zb/3PkBUiv2qQ==
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+
 "@types/react-slick@^0.23.4":
   version "0.23.4"
   resolved "https://registry.yarnpkg.com/@types/react-slick/-/react-slick-0.23.4.tgz#c97e2a9e7e3d1933c68593b8e82752fab1e8ce53"
@@ -7487,6 +7504,11 @@ on-finished@~2.3.0:
   dependencies:
     ee-first "1.1.1"
 
+once-only@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/once-only/-/once-only-1.0.3.tgz#c7b6d2affc571b30cd53f90f1dbe7267df9986f4"
+  integrity sha512-FJHCje3lvxq70NkbtjfrelVsbt4eTE0/1nA1B1pC4IessSWmAOLebVWtinl6+UE1YpaM7Z9tldH/+1EMziQAAg==
+
 once@^1.3.0, once@^1.3.1, once@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
@@ -8912,7 +8934,7 @@ react@^0.14.0:
     envify "^3.0.0"
     fbjs "^0.6.1"
 
-react@^16.11.0, react@^16.8.3:
+react@^16.11.0, react@^16.8.1, react@^16.8.3:
   version "16.11.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
   integrity sha512-M5Y8yITaLmU0ynd0r1Yvfq98Rmll6q8AxaEe88c8e7LxO8fZ2cNgmFt0aGAS9wzf1Ao32NKXtCl+/tVVtkxq6g==
@@ -10477,6 +10499,22 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-call@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/use-call/-/use-call-3.0.0.tgz#9b7155ad39995e6dd9b9ff28cfd9763e3d67e6da"
+  integrity sha512-4v5awxP+ptJTQI3mq/oNzJuKA0Tc9auf2cnabIOt9H/Sl7jYorFjqlznr3chiPe+zsTxhtPkPQOJKgOt6APJGQ==
+  dependencies:
+    once-only "^1.0.2"
+    react "^16.8.1"
+    use-promise "^1.0.0"
+
+use-promise@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-promise/-/use-promise-1.0.0.tgz#4636c4267c6c07dbe37f679598daa1e03d5d194a"
+  integrity sha512-RmN91ClVI0JHCp5ZJzycZzIUodvWnUQILrSCYJPc/E0wVKhn81Y1KcTrqrjP9X0MSXUr9trTNQv0NE62+PRqfg==
+  dependencies:
+    react "^16.8.1"
 
 use@^3.1.0:
   version "3.1.1"

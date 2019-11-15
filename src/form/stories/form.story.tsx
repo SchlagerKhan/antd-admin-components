@@ -10,12 +10,12 @@ import { Wrapper, Item, Title, onSubmit } from './helpers';
 
 const FIELDS: FormFieldTemplateElement[] = [
 	{
-		name: 'text1',
-		label: 'Text 1',
+		name: 'text',
+		label: 'Text',
 	},
 	{
-		name: 'text2',
-		label: 'Text 2',
+		name: 'email',
+		label: 'Email',
 	},
 	{
 		name: 'num1',
@@ -28,7 +28,10 @@ export function RegularForm() {
 	const formik = useFormik({
 		initialValues: {},
 		validationSchema: Yup.object().shape({
-			extraText: Yup.string().required('Required'),
+			email: Yup.string()
+				.email('Invalid email')
+				.required('Required'),
+			extra: Yup.string().required('Required'),
 		}),
 		onSubmit,
 	});
@@ -38,7 +41,7 @@ export function RegularForm() {
 			<Item>
 				<Title>Regular form</Title>
 				<Form formik={formik} fields={FIELDS} withReset>
-					<FormTextAreaField label='Text area (required)' name='extraText' />
+					<FormTextAreaField label='Text area (required)' name='extra' />
 				</Form>
 			</Item>
 		</Wrapper>

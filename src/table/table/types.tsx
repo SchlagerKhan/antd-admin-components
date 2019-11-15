@@ -24,7 +24,7 @@ export interface TableProps extends AntTableProps<any> {
 	actionsWidth?: number;
 	extraActions?: TableAction[];
 
-	onAdd?: () => void;
+	onAdd?: () => any;
 
 	searchValue?: string;
 	onSearch?: (value) => void;

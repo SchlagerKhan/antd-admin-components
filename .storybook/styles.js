@@ -13,6 +13,10 @@ styled.SB = {
 		height: 600px;
 		padding: 16px;
 	`,
+	NarrowWrapper: styled.div`
+		padding: 16px;
+		width: 400px;
+	`,
 	Item: styled.div`
 		margin-bottom: 16px;
 	`,

@@ -18,7 +18,7 @@ export function prompt(opts: PromptOpts) {
 		};
 
 		async function handleOk() {
-			await onOk;
+			await onOk();
 
 			destroyDiv(div);
 			resolve(true);
