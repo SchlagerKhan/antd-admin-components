@@ -8,7 +8,7 @@ export const INPUTS = [
 	},
 	{
 		id: 'password',
-		placeholder: 'Lösenord',
+		placeholder: 'Password',
 		type: 'password',
 		opts: {
 			rules: [{ required: true, message: 'Password is required' }],
