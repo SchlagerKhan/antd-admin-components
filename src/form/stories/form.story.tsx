@@ -3,8 +3,8 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { Form, FormFieldTemplateElement } from '../form';
-import { FormTextAreaField, FormNumberField } from '../fields';
+import { Form } from '../form';
+import { FormTextAreaField, FormNumberField, FormFieldTemplateElement } from '../fields';
 
 import { Wrapper, Item, Title, onSubmit } from './helpers.story';
 

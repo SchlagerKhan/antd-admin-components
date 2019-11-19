@@ -62,6 +62,6 @@ const addOpts = {
 	onAdd,
 };
 
-export const root = '/root-path';
+export const rootPath = '/root-path';
 export const overview = { columns, data, addOpts };
-export const form = { fields, fetchData, onSave };
+export const form = { title: 'Title', fields, fetchData, onSave };

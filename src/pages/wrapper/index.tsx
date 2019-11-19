@@ -1,26 +1,15 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import { AuthPage, AuthPageProps } from '../auth';
-import { AppPage, AppPageProps } from '../app';
+import { AuthPage } from '../auth';
+import { AppPage } from '../app';
 
-/* TYPES */
-export interface AdminProps {
-	title: string;
-	favicons?: {
-		'16x16': string;
-		'32x32': string;
-	};
+import { AdminProps } from './types';
+import { renderHelmet } from './helmet';
 
-	authPageProps?: AuthPageProps;
-	renderAuth?: (props: AdminProps) => JSX.Element;
-
-	appPageProps?: AppPageProps;
-	renderApp?: (props: AdminProps) => JSX.Element;
-}
+export * from './types';
 
 /* COMPONENTS */
 const Wrapper = styled.div`
@@ -28,57 +17,30 @@ const Wrapper = styled.div`
 	width: 100%;
 `;
 
-/* RENDERING */
-function renderFavicons(props: AdminProps) {
-	const { favicons } = props;
-
-	if (!favicons) {
-		return null;
-	}
-
-	return (
-		<>
-			<link rel='icon' type='image/png' sizes='32x32' href={favicons['32x32']} />
-			<link rel='icon' type='image/png' sizes='16x16' href={favicons['16x16']} />
-		</>
-	);
-}
-
-function renderHelmet(props: AdminProps) {
-	const { title } = props;
-
-	return (
-		<Helmet>
-			<meta charSet='utf-8' />
-
-			<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
-			<meta name='theme-color' content='white' />
-
-			{renderFavicons(props)}
-
-			<title>{title}</title>
-		</Helmet>
-	);
-}
-
 function defaultRenderAuth(props: AdminProps) {
-	return <AuthPage {...props.authPageProps} />;
+	return <AuthPage {...props.authProps} />;
 }
 
 function defaultRenderApp(props: AdminProps) {
-	return <AppPage {...props.appPageProps} />;
+	return <AppPage {...props.appProps} />;
 }
 
+/* RENDERING */
 export function Admin(props: AdminProps) {
 	const { renderAuth, renderApp } = props;
 
 	return (
+		// prettier-ignore
 		<Wrapper>
 			{renderHelmet(props)}
 			<Router>
 				<Switch>
-					<Route path='/auth' exact render={() => renderAuth(props)} />
-					<Route path='/' render={() => renderApp(props)} />
+					<Route path='/auth' exact>
+						{renderAuth(props)}
+					</Route>
+					<Route path='/'>
+						{renderApp(props)}
+					</Route>
 				</Switch>
 			</Router>
 		</Wrapper>

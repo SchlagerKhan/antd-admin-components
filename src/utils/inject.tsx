@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 import { Row, Col, Typography, Icon, Button, Dropdown, Steps, Card, Spin, Progress, Avatar } from 'antd';
-import { Select, DatePicker, TimePicker, Input, Slider, Rate } from 'formik-antd';
+import { DatePicker, TimePicker, Input, Slider, Rate } from 'formik-antd';
+
+import { Select } from '../input';
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -29,8 +31,9 @@ export function injectAntIntoStyledComponents() {
 
 	// Data Entry
 	styled.Input = styled(Input);
+	styled.TextArea = styled(Input.TextArea);
 	styled.Slider = styled(Slider);
-	styled.Slider = styled(Rate);
+	styled.Rate = styled(Rate);
 
 	styled.Select = styled(Select);
 	styled.Option = styled(Select.Option);
@@ -46,5 +49,5 @@ export function injectAntIntoStyledComponents() {
 	styled.Spin = styled(Spin);
 	styled.Progress = styled(Progress);
 
-	// Will continue this list after demand
+	// Will continue this list after demand...
 }

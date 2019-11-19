@@ -1,64 +1,55 @@
 import React from 'react';
 
-import { ArrayHelpers, FieldProps } from 'formik';
 import { Collapse } from 'antd';
 
-import { FormArrayField } from '../array';
-import { BasicFormArrayFieldProps, FormArrayFieldProps, DeleteIcon } from '../helpers';
+import { FormFieldTemplateElement } from '../../types';
+import { renderFields } from '../../render';
+import { FormArrayField, BasicFormArrayFieldProps, FormArrayFieldProps, FormArrayRenderListOpts } from '../field';
+import { DeleteIcon } from '../helpers';
+
+const { Panel } = Collapse;
 
 export interface FormObjectArrayFieldProps extends BasicFormArrayFieldProps {
-	item: any;
+	fields: FormFieldTemplateElement[];
 	itemHeader?: (value: any, index: number) => any;
 	defaultValue: any;
 }
 
-interface RenderPanelOpts {
-	name: string;
-	index: number;
-	header: any;
-	item: any;
-	helpers: ArrayHelpers;
+function formatField(arrayName, field, index) {
+	const name = `${arrayName}.${index}.${field.name}`;
+
+	return Object.assign({}, field, { name });
 }
 
-function renderPanel(opts: RenderPanelOpts) {
-	const { item, index, helpers, header } = opts;
-	const onRemove = () => helpers.remove(index);
+function renderList(opts: FormArrayRenderListOpts) {
+	const { fields, itemHeader } = this;
+	const { name, value = [] } = opts.fieldProps.field;
 
-	const panelProps = {
-		key: `${name}-${index}`,
-		header,
-		extra: <DeleteIcon onClick={onRemove} />,
-		children: item,
-	};
+	function renderPanel(item, index) {
+		const onRemove = () => opts.helpers.remove(index);
+		const formattedFields = fields.map((field) => formatField(name, field, index));
 
-	return <Collapse.Panel {...panelProps} />;
-}
+		const panelProps = {
+			key: `${name}-${index}`,
+			header: itemHeader(item, index),
+			extra: <DeleteIcon onClick={onRemove} />,
+			children: renderFields(formattedFields),
+		};
 
-function renderItems(props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) {
-	const { itemHeader } = this;
-	const { name, renderItem, ItemComp } = props;
-	const values = fieldProps.field.value;
+		return <Panel {...panelProps} />;
+	}
 
-	return (
-		<Collapse>
-			{values.map((value, index) => {
-				const opts = { name, index, ItemComp, helpers };
-				const item = renderItem(opts);
-				const header = itemHeader(value, index);
+	if (value.length === 0) {
+		return null;
+	}
 
-				return renderPanel({ name, index, header, item, helpers });
-			})}
-		</Collapse>
-	);
+	return <Collapse>{value.map(renderPanel)}</Collapse>;
 }
 
 export function FormObjectArrayField(props: FormObjectArrayFieldProps) {
-	const { item } = props;
-
 	const arrayFieldProps: FormArrayFieldProps = {
 		...props,
-		renderItems: renderItems.bind(props),
-		ItemComp: item,
+		renderList: renderList.bind(props),
 	};
 
 	return <FormArrayField {...arrayFieldProps} />;

@@ -18,13 +18,9 @@ export const CONTENT_ITEMS: PageItem[] = [
 	},
 ];
 
-function onLogin(values) {
+export function onLogin(values) {
 	console.log('Login', values);
 }
 
-function onRegister(values) {
-	console.log('Register', values);
-}
-
-export const Auth = () => <AuthPage title='Test title' onLogin={onLogin} onRegister={onRegister} />;
-export const App = () => <AppPage items={CONTENT_ITEMS} />;
+export const renderAuth = () => <AuthPage title='Test title' onLogin={onLogin} />;
+export const renderApp = () => <AppPage items={CONTENT_ITEMS} />;

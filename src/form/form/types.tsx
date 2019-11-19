@@ -1,13 +1,8 @@
 import { FormikProps, FormikConfig } from 'formik';
 
-import { FormTextFieldProps, FormTextAreaFieldProps, FormNumberFieldProps } from '../fields';
+import { FormFieldTemplateElement } from '../fields/types';
 
 /* TYPES */
-export type FormFieldTemplateElement = {
-	comp?: any;
-	value?: any;
-	defaultValue?: any;
-} & (FormTextFieldProps | FormTextAreaFieldProps | FormNumberFieldProps);
 
 export interface BasicFormProps extends Partial<HTMLFormElement> {
 	fields?: FormFieldTemplateElement[];

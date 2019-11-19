@@ -23,7 +23,9 @@ export interface BasicFormFieldProps {
 const Wrapper = styled.div`
 	width: 100% !important;
 
-	margin-bottom: 24px !important;
+	&:not(:last-child) {
+		margin-bottom: 24px !important;
+	}
 `;
 
 const Label = styled.label`
@@ -48,11 +50,10 @@ function renderLabel(props: FormFieldProps) {
 	return label;
 }
 
-function renderError(props: FormFieldProps) {
+function renderError(props: FormFieldProps, submitCount: number) {
 	const { hideError, name } = props;
 
-	const [_, { touched, error }] = useField(name);
-	const { submitCount } = useFormikContext();
+	const [_, { touched, error }] = useField(name); // eslint-disable-line
 	const forceError = submitCount > 0 || touched;
 
 	if (!hideError && forceError) {
@@ -64,12 +65,13 @@ function renderError(props: FormFieldProps) {
 
 export function FormField(props: FormFieldProps) {
 	const { children } = props;
+	const { submitCount } = useFormikContext();
 
 	return (
 		<Wrapper>
 			{renderLabel(props)}
 			{children}
-			{renderError(props)}
+			{renderError(props, submitCount)}
 		</Wrapper>
 	);
 }

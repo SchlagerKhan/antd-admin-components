@@ -44,5 +44,5 @@ export function AuthPage(props: AuthPageProps) {
 }
 
 AuthPage.defaultProps = {
-	mode: 'both',
+	mode: 'login',
 };

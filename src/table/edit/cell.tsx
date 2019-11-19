@@ -34,7 +34,7 @@ export function Cell(props: CellProps) {
 		if (isEditing && inputRef) {
 			inputRef.current.focus();
 		}
-	}, [isEditing]);
+	}, [inputRef, isEditing]);
 
 	if (!isEditing) {
 		return <Text onClick={isEditable && openEdit}>{text}</Text>;

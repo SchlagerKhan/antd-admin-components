@@ -10,7 +10,7 @@ export function prompt(opts: PromptOpts) {
 		const div = createDiv();
 
 		const { title, content, onOk = noop } = opts;
-		let promptProps: PromptProps = {
+		const promptProps: PromptProps = {
 			title,
 			content,
 			handleOk,

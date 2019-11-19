@@ -10,18 +10,27 @@ import { renderTitle } from './components';
 export interface AuthFormTemplateProps {
 	title?: string;
 	buttonText: string;
-	onAction: (values: any) => void | Promise<void>;
+	onAction: (values: any) => void | string | Promise<void | string>;
 	onError?: (err, values) => void;
 }
 
-function createOnSubmit(props: AuthFormTemplateProps, setLoading) {
-	const { onAction, onError } = props;
+async function callAction(props: AuthFormTemplateProps, values, formik) {
+	const { onAction } = props;
+	const errMessage = await onAction(values);
 
-	return async (values) => {
+	if (errMessage) {
+		formik.setFieldError('password', errMessage);
+	}
+}
+
+function createOnSubmit(props: AuthFormTemplateProps, setLoading) {
+	const { onError } = props;
+
+	return async (values, formik) => {
 		setLoading(true);
 
 		try {
-			await onAction(values);
+			await callAction(props, values, formik);
 		} catch (err) {
 			onError(err, values);
 		} finally {

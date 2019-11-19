@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -14,6 +14,7 @@ interface MenuSubItem {
 	title: string;
 	icon: string;
 	disabled?: boolean;
+	exact?: boolean;
 }
 
 export interface MenuItem extends MenuSubItem {
@@ -47,7 +48,7 @@ function renderTitle(item: MenuItem) {
 
 	return (
 		<>
-			<Icon type={icon}></Icon>
+			<Icon type={icon} />
 			<span>{title}</span>
 		</>
 	);
@@ -80,8 +81,9 @@ function renderItem(item: MenuItem) {
 
 export function Menu(props: MenuProps) {
 	const { items } = props;
+	const { pathname } = useLocation();
 
-	const selectedKeys = getSelectedKeys(items, window.location.pathname);
+	const selectedKeys = getSelectedKeys(items, pathname);
 	const defaultOpenKeys = items.map((item) => item.path);
 
 	const menuProps = {

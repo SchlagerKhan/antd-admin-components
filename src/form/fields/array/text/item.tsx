@@ -1,48 +1,44 @@
 import React from 'react';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { Input as AntInput } from 'antd';
+import { List } from 'antd';
+import { ArrayHelpers, FieldInputProps } from 'formik';
+import { Input as AntInput } from 'formik-antd';
 
-import { DeleteIcon, ArrayItemProps } from '../helpers';
+import { DeleteIcon } from '../helpers';
 
-/* COMPONENTS */
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
+const inputStyle = css`
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	resize: none;
+`;
+
+const ListItem = styled(List.Item)`
+	padding: 0 !important;
 `;
 
 const Input = styled(AntInput)`
-	position: relative;
-	margin-right: 4px;
-
-	&:hover {
-		z-index: 1;
-	}
-
-	&:not(:last-of-type) {
-		input {
-			border-bottom-left-radius: 0 !important;
-			border-bottom-right-radius: 0 !important;
-		}
-	}
-	&:not(:first-of-type) {
-		input {
-			margin-top: -1px;
-			border-top-left-radius: 0 !important;
-			border-top-right-radius: 0 !important;
-		}
-	}
+	${inputStyle}
 `;
 
-/* RENDERING */
-export function Item(props: ArrayItemProps) {
-	const { field, removeItem } = props;
+const TextArea = styled(AntInput.TextArea).attrs({
+	autoSize: true,
+})`
+	${inputStyle}
+`;
+
+export function renderItem(props, field: FieldInputProps<any>, index: number, helpers: ArrayHelpers) {
+	const name = `${field.name}[${index}]`;
+	const deleteItem = () => helpers.remove(index);
+	const deleteAction = <DeleteIcon onClick={deleteItem} />;
+
+	const Comp = props.textarea ? TextArea : Input;
 
 	return (
-		<Wrapper>
-			<Input {...field} />
-			<DeleteIcon onClick={removeItem} />
-		</Wrapper>
+		<ListItem actions={[deleteAction]}>
+			<Comp name={name} />
+		</ListItem>
 	);
 }

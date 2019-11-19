@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import { Button } from 'antd';
 
+import { TableAction, TableProps } from './types';
+
 const ActionButton = styled(Button)`
 	margin-right: 4px;
 `;
 
-import { TableAction, TableProps } from './types';
-
+/* RENDERING */
 function renderAction(action: TableAction, item, index) {
 	const { key, icon, type, onClick } = action;
 	const handleClick = () => onClick(item, index);
@@ -18,6 +19,7 @@ function renderAction(action: TableAction, item, index) {
 	return <ActionButton key={key} type={type} icon={icon} onClick={handleClick} />;
 }
 
+/** GETTERS */
 export function getActionColumn(props: TableProps, actions: TableAction[]) {
 	return {
 		key: 'actions',
