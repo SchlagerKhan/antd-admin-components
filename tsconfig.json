@@ -11,10 +11,7 @@
 		"outDir": "./lib",
 		"jsx": "react",
 		"lib": ["esnext", "dom"],
-		"baseUrl": ".",
-		"paths": {
-			"*": ["./*", "./src/*"]
-		}
+		"baseUrl": "."
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "lib", "**/*.stories.tsx", "**/*.story.tsx"]
