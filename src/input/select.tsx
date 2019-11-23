@@ -3,35 +3,62 @@ import { get } from 'lodash';
 import React from 'react';
 
 import styled from 'styled-components';
-import { Select as AntSelect, SelectProps as AntSelectProps } from 'formik-antd';
+import { Select as AntSelect } from 'antd';
+import { Select as FormikAntSelect, SelectProps as FormikAntSelectProps } from 'formik-antd';
+import { OptionProps } from 'antd/lib/select';
 
-const { Option } = AntSelect;
+const { Option } = FormikAntSelect;
 
-export interface SelectProps extends AntSelectProps {
-	options?: any[];
+export interface SelectProps extends FormikAntSelectProps {
+	useAntSelect: any;
+	options?: (OptionProps | string)[];
 }
 
-function renderOption(option) {
+/* GETTERS */
+function getOptionProps(option: OptionProps | string) {
 	const value = get(option, 'value', option);
-	const title = get(option, 'title', option);
-	const disabled = get(option, 'disabled', false);
+	const children = get(option, 'title', option);
 	const key = value;
 
-	return (
-		<Option key={key} value={value} disabled={disabled}>
-			{title}
-		</Option>
-	);
+	const baseProps = { key, value, children };
+
+	if (typeof option === 'string') {
+		return baseProps;
+	}
+
+	return Object.assign({}, option, baseProps);
+}
+
+function getSelectComp(props: SelectProps) {
+	const { useAntSelect } = props;
+
+	return useAntSelect ? AntSelect : FormikAntSelect;
+}
+
+/* RENDERING */
+function renderOption(option: OptionProps) {
+	const optionProps = getOptionProps(option);
+
+	return <Option {...optionProps} />;
+}
+
+function renderChildren(options, children) {
+	if (options) {
+		return options.map(renderOption);
+	}
+
+	return children;
 }
 
 export function Select(props: SelectProps) {
-	const { options, ...selectProps } = props;
+	const { options, children, ...selectProps } = props;
+	const SelectComp = getSelectComp(props);
 
 	return (
 		// prettier-ignore
-		<AntSelect {...selectProps}>
-			{options.map(renderOption)}
-		</AntSelect>
+		<SelectComp {...selectProps}>
+			{renderChildren(options, children)}
+		</SelectComp>
 	);
 }
 
