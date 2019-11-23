@@ -1,3 +1,5 @@
+import 'antd/dist/antd.css';
+
 export * from './auth';
 export * from './input';
 export * from './form';
