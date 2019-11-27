@@ -10,7 +10,7 @@ export interface EditContentOverviewProps {
 	columns: TableProps['columns'];
 	data: TableProps['dataSource'];
 
-	root: string;
+	rootPath: string;
 	onDelete?: TableActionShortcut['onDelete'];
 
 	addOpts: {
@@ -31,7 +31,7 @@ function createOnAdd(props: EditContentOverviewProps) {
 }
 
 export function EditContentOverview(props: EditContentOverviewProps) {
-	const { idKey, columns, data, root, onDelete } = props;
+	const { idKey, columns, data, rootPath: root, onDelete } = props;
 	const history = useHistory();
 
 	function onEdit(row) {

@@ -6,14 +6,14 @@ import { EditContent } from '../index';
 import { EditContentOverview } from '../overview';
 import { EditContentForm } from '../form';
 
-import { root, form, overview } from './helpers';
+import { rootPath, form, overview } from './helpers.story';
 
 const { NarrowWrapper, Wrapper, Item, Title } = styled.SB;
 
 export function Overview() {
 	return (
 		<Wrapper>
-			<EditContentOverview root={root} {...overview} />
+			<EditContentOverview {...overview} {...{ rootPath }} />
 		</Wrapper>
 	);
 }
@@ -32,7 +32,7 @@ export function Form() {
 export function Content() {
 	return (
 		<Wrapper>
-			<EditContent {...{ root, overview, form }} />
+			<EditContent {...{ rootPath, overview, form }} />
 		</Wrapper>
 	);
 }

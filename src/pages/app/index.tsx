@@ -1,21 +1,23 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Layout, Header, Menu, Content, MenuItem } from '../../layout';
 
 export interface PageItem extends MenuItem {
-	component: any;
+	items?: PageItem[];
+	component?: any;
 }
 
 type PageItems = PageItem[];
 
 export interface AppPageProps {
 	items: PageItems;
+	isLoggedIn?: boolean;
 
 	renderHeader?: () => JSX.Element;
-	renderMenu: (items: PageItems) => JSX.Element;
-	renderContent?: (routes: JSX.Element, items: PageItems) => JSX.Element;
-	renderRoutes: (items: PageItems) => JSX.Element;
+	renderMenu?: (items: PageItems) => JSX.Element;
+	renderContent?: (routeSwitch: JSX.Element, items: PageItems) => JSX.Element;
+	renderRoutes?: (items: PageItems) => JSX.Element;
 }
 
 /* RENDERING */
@@ -28,29 +30,41 @@ function defaultRenderMenu(items: PageItems) {
 }
 
 function defaultRenderRoutes(items: PageItems) {
+	const routes = items
+		.map((item) => item.items || item)
+		.flat(2)
+		.filter((item) => item.component);
+
 	return (
 		<Switch>
-			{items.map((item) => (
-				<Route key={item.path} {...item} />
+			{routes.map((route) => (
+				<Route key={route.path} {...route} />
 			))}
 		</Switch>
 	);
 }
 
-function defaultRenderContent(routes: JSX.Element, items: PageItems) {
-	return routes;
+function defaultRenderContent(routeSwitch: JSX.Element) {
+	return routeSwitch;
 }
 
 export function AppPage(props: AppPageProps) {
-	const { items, renderHeader, renderMenu, renderContent, renderRoutes } = props;
-	const routes = renderRoutes(items);
+	const { items, isLoggedIn, renderHeader, renderMenu, renderContent, renderRoutes } = props;
+	const routeSwitch = renderRoutes(items);
+
+	if (isLoggedIn === false) {
+		return <Redirect to='/auth' />;
+	}
 
 	return (
+		// prettier-ignore
 		<Layout>
 			<Header>{renderHeader()}</Header>
 			<Layout>
 				{renderMenu(items)}
-				<Content>{renderContent(routes, items)}</Content>
+				<Content>
+					{renderContent(routeSwitch, items)}
+				</Content>
 			</Layout>
 		</Layout>
 	);

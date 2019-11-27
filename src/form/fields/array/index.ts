@@ -1,3 +1,3 @@
-export * from './array';
+export * from './field';
 export * from './text';
 export * from './object';

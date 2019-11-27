@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Input, InputNumber, PasswordProps, InputProps, TextAreaProps, InputNumberProps, SwitchProps, Switch } from 'formik-antd';
 
+import { Select, SelectProps } from '../../../input';
 import { FormField, BasicFormFieldProps } from './field';
 
 type FormInputFieldProps = BasicFormFieldProps & InputProps & {};
@@ -35,3 +36,7 @@ export const FormNumberField = (props: FormNumberFieldProps) => renderInput(prop
 /* SWITCH */
 export type FormSwitchFieldProps = FormInputFieldProps & SwitchProps;
 export const FormSwitchField = (props: FormSwitchFieldProps) => renderInput(props, Switch);
+
+/* SELECT */
+export type FormSelectFieldProps = FormInputFieldProps & SelectProps;
+export const FormSelectField = (props: FormSelectFieldProps) => renderInput(props, Select);

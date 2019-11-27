@@ -28,9 +28,9 @@ const FIELDS = [
 	},
 ];
 
-function doPrompt(prompt) {
+function callPrompt(fn) {
 	return async () => {
-		const res = await prompt();
+		const res = await fn();
 
 		console.log('Prompt response', res);
 	};
@@ -52,9 +52,9 @@ export const AllPrompts = () => {
 			<Item>
 				<Title>Prompts</Title>
 				<Content>
-					<Button onClick={doPrompt(reg)}>Regular</Button>
-					<Button onClick={doPrompt(form)}>Form</Button>
-					<Button onClick={doPrompt(text)}>Text</Button>
+					<Button onClick={callPrompt(reg)}>Regular</Button>
+					<Button onClick={callPrompt(form)}>Form</Button>
+					<Button onClick={callPrompt(text)}>Text</Button>
 				</Content>
 			</Item>
 		</Wrapper>

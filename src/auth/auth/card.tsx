@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Card, AuthFormTemplateProps } from '../helpers';
 import { AuthForm } from './form';

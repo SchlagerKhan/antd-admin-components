@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { Table as TableComp } from '../index';
-import { DATA, COLUMNS, ACTIONS, EXTRA_ACTIONS } from './helpers';
+import { DATA, COLUMNS, ACTIONS, EXTRA_ACTIONS } from './helpers.story';
 
 const { Wrapper, Item, Title } = styled.SB;
 

@@ -8,21 +8,21 @@ export * from './overview';
 export * from './form';
 
 export interface EditContentProps {
-	root: EditContentOverviewProps['root'];
-	overview: Omit<EditContentOverviewProps, 'root'>;
+	rootPath: EditContentOverviewProps['rootPath'];
+	overview: Omit<EditContentOverviewProps, 'rootPath'>;
 	form: EditContentFormProps;
 }
 
 export function EditContent(props: EditContentProps) {
-	const { root, overview, form } = props;
+	const { rootPath, overview, form } = props;
 
 	return (
 		<Switch>
-			<Route exact path={`${root}/:alias`}>
+			<Route exact path={`${rootPath}/:alias`}>
 				<EditContentForm {...form} />
 			</Route>
-			<Route exact path={root}>
-				<EditContentOverview root={root} {...overview} />
+			<Route exact path={rootPath}>
+				<EditContentOverview rootPath={rootPath} {...overview} />
 			</Route>
 		</Switch>
 	);

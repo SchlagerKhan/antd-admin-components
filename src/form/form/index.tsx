@@ -7,16 +7,11 @@ import { renderContent } from './content';
 
 export * from './types';
 
-function getFormik(props: FormProps) {
+function useSafeFormik(props: FormProps) {
 	const { formik, formikConfig } = props;
 
-	if (formik) {
-		return formik;
-	} else if (formikConfig) {
-		return useFormik(formikConfig);
-	}
-
-	throw new Error('formik or formikConfig is required by form');
+	const fallbackFormik = useFormik(formikConfig);
+	return formik || fallbackFormik;
 }
 
 function initFormikRef(props, formik) {
@@ -27,7 +22,7 @@ function initFormikRef(props, formik) {
 }
 
 export function Form(props: FormProps) {
-	const formik = getFormik(props);
+	const formik = useSafeFormik(props);
 
 	initFormikRef(props, formik);
 
@@ -42,6 +37,7 @@ export function Form(props: FormProps) {
 Form.defaultProps = {
 	fields: [],
 	formikRef: {},
+	formikConfig: {},
 	withSubmit: true,
 	submitText: 'Save',
 };

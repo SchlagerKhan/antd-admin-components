@@ -1,43 +1,21 @@
+import React from 'react';
+
 import styled from 'styled-components';
 
-import { FieldProps, ArrayHelpers, FieldInputProps, FieldMetaProps, useField, useFormikContext } from 'formik';
-import { Icon } from 'antd';
+import { Typography, Icon } from 'antd';
 
-import { BasicFormFieldProps } from '../field';
+const { Text } = Typography;
 
-/* TYPES */
-export interface FormArrayRenderItemOpts {
-	name: FormArrayFieldProps['name'];
-	index: number;
-	ItemComp: FormArrayFieldProps['ItemComp'];
-	helpers: ArrayHelpers;
-}
-
-export interface FormArrayFieldProps {
-	name: string;
-	label?: string;
-	defaultValue: any;
-	renderItem?: (opts: FormArrayRenderItemOpts) => JSX.Element;
-	renderItems?: (props: FormArrayFieldProps, fieldProps: FieldProps, helpers: ArrayHelpers) => JSX.Element;
-	ItemComp: any;
-}
-
-export interface BasicFormArrayFieldProps extends BasicFormFieldProps {}
-
-export interface ArrayItemProps extends FieldProps {
-	index: number;
-	removeItem: () => void;
-}
-
-/* COMPONENTS */
-export const DeleteIcon = styled(Icon).attrs({
+const Delete = styled(Icon).attrs({
 	type: 'delete',
-})``;
+})`
+	cursor: pointer;
+`;
 
-/* HOOKS */
-export function useFieldProps(name): FieldProps {
-	const [field, meta] = useField(name);
-	const form = useFormikContext();
-
-	return { field, meta, form };
+export function DeleteIcon(props) {
+	return (
+		<Text type='danger'>
+			<Delete {...props} />
+		</Text>
+	);
 }

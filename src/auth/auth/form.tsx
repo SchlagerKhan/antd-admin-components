@@ -19,8 +19,8 @@ function renderForm(isLogin: boolean, props: AuthFormProps) {
 	const { onLogin, onRegister } = props;
 
 	// prettier-ignore
-	return isLogin 
-		? <LoginForm title='Login' onLogin={onLogin} /> 
+	return isLogin
+		? <LoginForm title='Login' onLogin={onLogin} />
 		: <RegisterForm title='Register' onRegister={onRegister} />;
 }
 

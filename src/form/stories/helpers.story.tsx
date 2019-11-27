@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Button } from 'antd';
-
 export const { Item, Title } = styled.SB;
 
 export const Wrapper = styled.Wrapper`
