@@ -8,22 +8,26 @@ export * from './overview';
 export * from './form';
 
 export interface EditContentProps {
+	title?: string;
 	rootPath: EditContentOverviewProps['rootPath'];
 	overview: Omit<EditContentOverviewProps, 'rootPath'>;
 	form: EditContentFormProps;
 }
 
 export function EditContent(props: EditContentProps) {
-	const { rootPath, overview, form } = props;
+	const { title, rootPath, overview, form } = props;
 
 	return (
-		<Switch>
-			<Route exact path={`${rootPath}/:alias`}>
-				<EditContentForm {...form} />
-			</Route>
-			<Route exact path={rootPath}>
-				<EditContentOverview rootPath={rootPath} {...overview} />
-			</Route>
-		</Switch>
+		<>
+			{title && <h1>{title}</h1>}
+			<Switch>
+				<Route exact path={`${rootPath}/:alias`}>
+					<EditContentForm {...form} />
+				</Route>
+				<Route exact path={rootPath}>
+					<EditContentOverview rootPath={rootPath} {...overview} />
+				</Route>
+			</Switch>
+		</>
 	);
 }
