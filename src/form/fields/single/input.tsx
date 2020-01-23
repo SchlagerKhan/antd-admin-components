@@ -1,9 +1,26 @@
 import React from 'react';
 
-import { Input, InputNumber, PasswordProps, InputProps, TextAreaProps, InputNumberProps, SwitchProps, Switch } from 'formik-antd';
+import styled from 'styled-components';
+
+import {
+	Input,
+	InputNumber,
+	PasswordProps,
+	InputProps,
+	TextAreaProps,
+	InputNumberProps,
+	SwitchProps,
+	Switch,
+	CheckboxProps,
+	Checkbox,
+} from 'formik-antd';
 
 import { Select, SelectProps } from '../../../input';
 import { FormField, BasicFormFieldProps } from './field';
+
+const StyledInputNumber = styled(InputNumber)`
+	min-width: 200px;
+`;
 
 type FormInputFieldProps = BasicFormFieldProps & InputProps & {};
 
@@ -31,7 +48,7 @@ export const FormTextAreaField = (props: FormTextAreaFieldProps) => renderInput(
 
 /* NUMBER */
 export type FormNumberFieldProps = InputNumberProps & InputProps;
-export const FormNumberField = (props: FormNumberFieldProps) => renderInput(props, InputNumber);
+export const FormNumberField = (props: FormNumberFieldProps) => renderInput(props, StyledInputNumber);
 
 /* SWITCH */
 export type FormSwitchFieldProps = FormInputFieldProps & SwitchProps;
@@ -40,3 +57,7 @@ export const FormSwitchField = (props: FormSwitchFieldProps) => renderInput(prop
 /* SELECT */
 export type FormSelectFieldProps = FormInputFieldProps & SelectProps;
 export const FormSelectField = (props: FormSelectFieldProps) => renderInput(props, Select);
+
+/* CHECKBOX */
+export type FormCheckboxFieldProps = FormInputFieldProps & CheckboxProps;
+export const FormCheckboxField = (props: FormCheckboxFieldProps) => renderInput(props, Checkbox);
