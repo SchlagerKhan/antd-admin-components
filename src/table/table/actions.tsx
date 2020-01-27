@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 
 import { TableAction, TableProps } from './types';
 
@@ -12,11 +12,18 @@ const ActionButton = styled(Button)`
 
 /* RENDERING */
 function renderAction(action: TableAction, item, index) {
-	const { key, icon, type, onClick } = action;
+	const { key, icon, type, safe, onClick } = action;
 	const handleClick = () => onClick(item, index);
 
-	// @ts-ignore
-	return <ActionButton key={key} type={type} icon={icon} onClick={handleClick} />;
+	if (!safe) {
+		return <ActionButton key={key} type={type} icon={icon} onClick={handleClick} />;
+	}
+
+	return (
+		<Popconfirm key={key} title='Confirm' onConfirm={handleClick}>
+			<ActionButton key={key} type={type} icon={icon} />
+		</Popconfirm>
+	);
 }
 
 /** GETTERS */
@@ -50,6 +57,7 @@ export function getActions(props: TableProps): TableAction[] {
 			key: 'delete',
 			icon: 'delete',
 			type: 'danger',
+			safe: true,
 			onClick: onDelete,
 		});
 	}

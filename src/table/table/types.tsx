@@ -4,6 +4,7 @@ export interface TableAction {
 	key: string;
 	icon: string;
 	type?: string;
+	safe?: boolean;
 	onClick: (item: any, index: number) => any;
 }
 
