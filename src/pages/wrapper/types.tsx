@@ -8,6 +8,8 @@ export interface AdminProps {
 		'32x32': string;
 	};
 
+	isLoading: boolean;
+
 	authProps?: AuthPageProps;
 	renderAuth?: (props: AdminProps) => JSX.Element;
 

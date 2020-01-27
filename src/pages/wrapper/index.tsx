@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import styled from 'styled-components';
 
+import { Spin } from 'antd';
+
 import { AuthPage } from '../auth';
 import { AppPage } from '../app';
 
@@ -25,9 +27,21 @@ function defaultRenderApp(props: AdminProps) {
 	return <AppPage {...props.appProps} />;
 }
 
+function renderLoading() {
+	return (
+		<Spin>
+			<div style={{ width: '100%', height: '100vh' }} />
+		</Spin>
+	);
+}
+
 /* RENDERING */
 export function Admin(props: AdminProps) {
-	const { renderAuth, renderApp } = props;
+	const { isLoading, renderAuth, renderApp } = props;
+
+	if (isLoading) {
+		return renderLoading();
+	}
 
 	return (
 		// prettier-ignore
