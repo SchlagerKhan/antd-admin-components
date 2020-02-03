@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Table, TableProps, TableActionShortcut } from '../../table';
+import { Table, TableProps, AntTableProps, TableActionShortcut } from '../../table';
 import { FormProps } from '../../form';
 import { formPrompt } from '../../prompt';
 
 export interface EditContentOverviewProps {
 	idKey?: TableProps['rowKey'];
+
 	columns: TableProps['columns'];
 	data: TableProps['dataSource'];
 
@@ -17,6 +18,8 @@ export interface EditContentOverviewProps {
 		fields: FormProps['fields'];
 		onAdd: (values: any) => any;
 	};
+
+	tableProps?: Partial<TableProps>;
 }
 
 function createOnAdd(props: EditContentOverviewProps) {
@@ -31,7 +34,7 @@ function createOnAdd(props: EditContentOverviewProps) {
 }
 
 export function EditContentOverview(props: EditContentOverviewProps) {
-	const { idKey, columns, data, rootPath: root, onDelete } = props;
+	const { idKey, columns, data, rootPath: root, onDelete, tableProps: $tableProps } = props;
 	const history = useHistory();
 
 	function onEdit(row) {
@@ -40,6 +43,7 @@ export function EditContentOverview(props: EditContentOverviewProps) {
 	}
 
 	const tableProps = {
+		...$tableProps,
 		rowKey: idKey,
 		dataSource: data,
 		columns,
@@ -52,4 +56,7 @@ export function EditContentOverview(props: EditContentOverviewProps) {
 
 EditContentOverview.defaultProps = {
 	idKey: 'id',
+	pagination: {
+		defaultPageSize: 25,
+	},
 };

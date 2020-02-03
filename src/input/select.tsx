@@ -3,16 +3,26 @@ import { get } from 'lodash';
 import React from 'react';
 
 import styled from 'styled-components';
+
 import { Select as AntSelect } from 'antd';
 import { Select as FormikAntSelect, SelectProps as FormikAntSelectProps } from 'formik-antd';
-import { OptionProps } from 'antd/lib/select';
+import { SelectProps as AntSelectProps, OptionProps } from 'antd/lib/select';
 
 const { Option } = FormikAntSelect;
 
-export interface SelectProps extends FormikAntSelectProps {
-	useAntSelect: any;
+interface FormikSelectProps extends FormikAntSelectProps {
+	useAntSelect?: false;
 	options?: (OptionProps | string)[];
+	children?: any;
 }
+
+interface CustomAntSelectProps extends AntSelectProps {
+	useAntSelect: true;
+	options?: (OptionProps | string)[];
+	children?: any;
+}
+
+export type SelectProps = FormikSelectProps | CustomAntSelectProps;
 
 /* GETTERS */
 function getOptionProps(option: OptionProps | string) {
@@ -56,6 +66,7 @@ export function Select(props: SelectProps) {
 
 	return (
 		// prettier-ignore
+		// @ts-ignore
 		<SelectComp {...selectProps}>
 			{renderChildren(options, children)}
 		</SelectComp>

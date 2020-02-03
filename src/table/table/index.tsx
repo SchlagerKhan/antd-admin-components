@@ -22,22 +22,6 @@ const Search = styled(Input)`
 	width: 400px;
 `;
 
-function renderHeader(props: TableProps) {
-	const addButton = renderAddButton(props);
-	const search = renderSearch(props);
-
-	if (!addButton && !search) {
-		return null;
-	}
-
-	return (
-		<Header>
-			{addButton}
-			{search}
-		</Header>
-	);
-}
-
 function renderAddButton(props: TableProps) {
 	const { onAdd } = props;
 
@@ -63,6 +47,24 @@ function renderSearch(props: TableProps) {
 	};
 
 	return <Search {...searchProps} />;
+}
+
+function renderHeader(props: TableProps) {
+	const { extraHeader } = props;
+	const addButton = renderAddButton(props);
+	const search = renderSearch(props);
+
+	if (!addButton && !search) {
+		return null;
+	}
+
+	return (
+		<Header>
+			{addButton}
+			{search}
+			{extraHeader}
+		</Header>
+	);
 }
 
 export function Table(props: TableProps) {

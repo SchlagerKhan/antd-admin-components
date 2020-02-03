@@ -1,5 +1,7 @@
 import { TableProps as AntTableProps, ColumnProps } from 'antd/lib/table';
 
+export { AntTableProps };
+
 export interface TableAction {
 	key: string;
 	icon: string;
@@ -17,7 +19,7 @@ export interface TableActionShortcut {
 	onEdit?: TableAction['onClick'];
 }
 
-export interface TableProps extends AntTableProps<any> {
+export interface TableProps<T = any> extends AntTableProps<T> {
 	rowKey: string;
 
 	columns: TableColumn[];
@@ -29,4 +31,6 @@ export interface TableProps extends AntTableProps<any> {
 
 	searchValue?: string;
 	onSearch?: (value) => void;
+
+	extraHeader?: any;
 }
