@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Fragment, useCallback } from 'react';
 
 import { useParams, useHistory } from 'react-router-dom';
-import { useAsyncCall } from 'use-call';
+import useAsyncCall from 'use-async-call';
 
 import { useFormik, FormikConfig } from 'formik';
 import { Skeleton, PageHeader as AntPageHeader, Button, message } from 'antd';
@@ -15,6 +15,8 @@ export interface EditContentFormProps {
 	fields: FormProps['fields'];
 	fetchData: (variables: any) => Promise<any>;
 	onSave: FormikConfig<any>['onSubmit'];
+
+	WrapperComponent?: React.ElementType;
 }
 
 const PageHeader = styled(AntPageHeader)`
@@ -48,19 +50,17 @@ function createOnSubmit(onSave) {
 }
 
 export function EditContentForm(props: EditContentFormProps) {
-	const { title, fields, fetchData, onSave } = props;
+	const { title, fields, fetchData, onSave, WrapperComponent } = props;
 
 	const { alias } = useParams();
 	const history = useHistory();
 
-	const [data, _, loading] = useAsyncCall(fetchData, { alias }); //eslint-disable-line
+	const callFn = useCallback(() => fetchData({ alias }), [alias]);
+	const [state, { refresh }] = useAsyncCall(callFn); //eslint-disable-line
+	const { data, loading } = state;
 
 	const onSubmit = createOnSubmit(onSave);
 	const formik = useFormik({ initialValues: data, onSubmit, enableReinitialize: true });
-
-	if (loading) {
-		return <Skeleton />;
-	}
 
 	const formProps = {
 		formik,
@@ -76,9 +76,20 @@ export function EditContentForm(props: EditContentFormProps) {
 		extra: getExtra(formik),
 	};
 
+	if (loading) {
+		return <Skeleton />;
+	}
+
 	return (
-		<PageHeader {...headerProps}>
-			<Form {...formProps} />
-		</PageHeader>
+		<WrapperComponent data={data} refresh={refresh}>
+			<PageHeader {...headerProps}>
+				<Form {...formProps} />
+			</PageHeader>
+		</WrapperComponent>
 	);
 }
+
+EditContentForm.defaultProps = {
+	WrapperComponent: Fragment,
+	renderExtra: () => null,
+};
