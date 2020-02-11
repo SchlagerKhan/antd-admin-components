@@ -90,6 +90,6 @@ export function EditContentForm(props: EditContentFormProps) {
 }
 
 EditContentForm.defaultProps = {
-	WrapperComponent: Fragment,
+	WrapperComponent: ({ children }) => children,
 	renderExtra: () => null,
 };
