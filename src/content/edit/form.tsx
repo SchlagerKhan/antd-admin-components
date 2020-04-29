@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { useParams, useHistory } from 'react-router-dom';
 import useAsyncCall from 'use-async-call';
@@ -49,17 +49,11 @@ function createOnSubmit(onSave) {
 	};
 }
 
-export function EditContentForm(props: EditContentFormProps) {
-	const { title, fields, fetchData, onSave, WrapperComponent } = props;
-
-	const { alias } = useParams();
-	const history = useHistory();
-
-	const callFn = useCallback(() => fetchData({ alias }), [alias]);
-	const [state, { refresh }] = useAsyncCall(callFn); //eslint-disable-line
-	const { data, loading } = state;
-
+function LoadedContent(props) {
+	const { data, refresh, title, fields, onSave, WrapperComponent } = props;
 	const onSubmit = createOnSubmit(onSave);
+
+	const history = useHistory();
 	const formik = useFormik({ initialValues: data, onSubmit, enableReinitialize: true });
 
 	const formProps = {
@@ -76,10 +70,6 @@ export function EditContentForm(props: EditContentFormProps) {
 		extra: getExtra(formik),
 	};
 
-	if (loading) {
-		return <Skeleton />;
-	}
-
 	return (
 		<WrapperComponent data={data} refresh={refresh}>
 			<PageHeader {...headerProps}>
@@ -87,6 +77,28 @@ export function EditContentForm(props: EditContentFormProps) {
 			</PageHeader>
 		</WrapperComponent>
 	);
+}
+
+export function EditContentForm(props: EditContentFormProps) {
+	const { fetchData } = props;
+
+	const { alias } = useParams();
+	const callFn = useCallback(() => fetchData({ alias }), [alias]);
+	const [state, { refresh }] = useAsyncCall(callFn);
+	const { data, loading } = state;
+
+	if (loading) {
+		return <Skeleton />;
+	}
+
+	if (!data) {
+		return <p>No content</p>;
+	}
+
+	// return null;
+
+	const contentProps = { data, refresh, ...props };
+	return <LoadedContent {...contentProps} />;
 }
 
 EditContentForm.defaultProps = {
