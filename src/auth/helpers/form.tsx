@@ -14,12 +14,13 @@ export interface AuthFormTemplateProps {
 	onError?: (err, values) => void;
 }
 
-async function callAction(props: AuthFormTemplateProps, values, formik) {
+async function callAction(props: AuthFormTemplateProps, values, formik, setLoading) {
 	const { onAction } = props;
 	const errMessage = await onAction(values);
 
 	if (errMessage) {
 		formik.setFieldError('password', errMessage);
+		setLoading(false);
 	}
 }
 
@@ -29,9 +30,8 @@ function createOnSubmit(props: AuthFormTemplateProps, setLoading) {
 	return async (values, formik) => {
 		try {
 			setLoading(true);
-			await callAction(props, values, formik);
+			await callAction(props, values, formik, setLoading);
 		} catch (err) {
-			setLoading(false);
 			onError(err, values);
 		}
 	};
