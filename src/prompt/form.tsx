@@ -22,7 +22,7 @@ function createOnOk(opts, formikRef) {
 	};
 }
 
-async function doPrompt(opts: PromptOpts, formikRef) {
+async function callPrompt(opts: PromptOpts, formikRef) {
 	const isOk = await prompt(opts);
 	const { values } = formikRef.formik;
 
@@ -46,5 +46,5 @@ export function formPrompt(fields: FormFieldTemplateElement[], opts: BasicPrompt
 	const onOk = createOnOk(opts, formikRef);
 	const promptOpts = { ...opts, onOk, content };
 
-	return doPrompt(promptOpts, formikRef);
+	return callPrompt(promptOpts, formikRef);
 }
