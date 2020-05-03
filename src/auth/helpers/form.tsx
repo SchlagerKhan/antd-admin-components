@@ -27,14 +27,12 @@ function createOnSubmit(props: AuthFormTemplateProps, setLoading) {
 	const { onError } = props;
 
 	return async (values, formik) => {
-		setLoading(true);
-
 		try {
+			setLoading(true);
 			await callAction(props, values, formik);
 		} catch (err) {
-			onError(err, values);
-		} finally {
 			setLoading(false);
+			onError(err, values);
 		}
 	};
 }
