@@ -10,13 +10,25 @@ import styled from 'styled-components';
 
 import { Form, FormProps } from '../../form';
 
+interface FieldFnOpts {
+	formik: ReturnType<typeof useFormik>;
+}
+
+type FormFields = FormProps['fields'];
+type FormFieldsFn = (opts: FieldFnOpts) => FormFields;
+
 export interface EditContentFormProps {
 	title: string;
-	fields: FormProps['fields'];
+	fields: FormFields | FormFieldsFn;
 	fetchData: (variables: any) => Promise<any>;
 	onSave: FormikConfig<any>['onSubmit'];
 
 	WrapperComponent?: React.ElementType;
+}
+
+interface LoadedContentProps extends EditContentFormProps {
+	data: any[];
+	refresh: Function;
 }
 
 const PageHeader = styled(AntPageHeader)`
@@ -49,12 +61,16 @@ function createOnSubmit(onSave) {
 	};
 }
 
-function LoadedContent(props) {
-	const { data, refresh, title, fields, onSave, WrapperComponent } = props;
+function LoadedContent(props: LoadedContentProps) {
+	const { data, refresh, title, fields: $fields, onSave, WrapperComponent } = props;
 	const onSubmit = createOnSubmit(onSave);
 
 	const history = useHistory();
 	const formik = useFormik({ initialValues: data, onSubmit, enableReinitialize: true });
+
+	const fieldsIsFn = typeof $fields === 'function';
+	// @ts-ignore
+	const fields = (fieldsIsFn ? $fields({ formik }) : $fields) as FormFields;
 
 	const formProps = {
 		formik,
@@ -83,7 +99,7 @@ export function EditContentForm(props: EditContentFormProps) {
 	const { fetchData } = props;
 
 	const { alias } = useParams();
-	const callFn = useCallback(() => fetchData({ alias }), [alias]);
+	const callFn = useCallback(() => fetchData({ alias }), [fetchData, alias]);
 	const [state, { refresh }] = useAsyncCall(callFn);
 	const { data, loading } = state;
 
