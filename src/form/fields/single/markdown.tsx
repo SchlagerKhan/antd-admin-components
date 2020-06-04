@@ -33,7 +33,7 @@ export function FormMarkdownField(props: FormMarkdownFieldProps) {
 	return (
 		<FormField {...{ name, label }}>
 			<Wrapper>
-				<TextArea name={name} autoSize />
+				<TextArea autoSize name={name} />
 				<MarkdownComponent>{field.value || ''}</MarkdownComponent>
 			</Wrapper>
 		</FormField>
