@@ -14,9 +14,7 @@ export interface FormArrayRenderListOpts {
 	helpers: ArrayHelpers;
 }
 
-export interface FormArrayFieldProps {
-	name: string;
-	label?: string;
+export interface FormArrayFieldProps extends BasicFormFieldProps {
 	defaultValue: any;
 	renderItem?: (opts: FormArrayRenderItemOpts) => JSX.Element;
 	renderList?: (opts: FormArrayRenderListOpts) => JSX.Element;

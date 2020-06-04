@@ -1,23 +1,12 @@
 import React from 'react';
 
 import { useField, useFormikContext } from 'formik';
+import { Icon, Modal } from 'antd';
 
 import styled from 'styled-components';
 
 import { Error } from './error';
-
-/** TYPES */
-export interface FormFieldProps {
-	name: string;
-	label?: any;
-	hideError?: boolean;
-	children: any;
-}
-
-export interface BasicFormFieldProps {
-	name: FormFieldProps['name'];
-	label?: FormFieldProps['label'];
-}
+import { FormFieldProps } from './types';
 
 /** COMPONENTS */
 const Wrapper = styled.div`
@@ -28,23 +17,38 @@ const Wrapper = styled.div`
 	}
 `;
 
-const Label = styled.label`
+export const FormFieldLabel = styled.label`
 	display: block;
 	margin-bottom: 2px;
 
 	font-weight: bold;
 `;
 
+const InstructionIcon = styled(Icon).attrs({
+	type: 'question-circle',
+})`
+	margin-left: 8px;
+`;
+
 /* RENDERING */
 function renderLabel(props: FormFieldProps) {
-	const { name, label } = props;
+	const { name, label, instructions } = props;
+
+	function openInstructions() {
+		Modal.info({ title: label, content: instructions });
+	}
 
 	if (!label) {
 		return null;
 	}
 
 	if (typeof label === 'string') {
-		return <Label htmlFor={name}>{label}</Label>;
+		return (
+			<FormFieldLabel htmlFor={name}>
+				{label}
+				{instructions && <InstructionIcon onClick={openInstructions} />}
+			</FormFieldLabel>
+		);
 	}
 
 	return label;

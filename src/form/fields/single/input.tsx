@@ -16,7 +16,8 @@ import {
 } from 'formik-antd';
 
 import { Select, SelectProps } from '../../../input';
-import { FormField, BasicFormFieldProps } from './field';
+import { FormField } from './field';
+import { BasicFormFieldProps } from './types';
 
 const StyledInputNumber = styled(InputNumber)`
 	min-width: 200px;

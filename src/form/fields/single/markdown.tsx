@@ -7,7 +7,8 @@ import JsxMarkdown from 'markdown-to-jsx';
 
 import styled from 'styled-components';
 
-import { FormField, FormFieldProps } from './field';
+import { FormFieldProps } from './types';
+import { FormField } from './field';
 
 export interface FormMarkdownFieldProps extends FormFieldProps {
 	MarkdownComponent?: any;

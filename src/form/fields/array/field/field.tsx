@@ -56,13 +56,17 @@ function renderFieldArray(opts: FormArrayRenderListOpts) {
 }
 
 export function FormArrayField(props: FormArrayFieldProps) {
-	const { name, label } = props;
+	const { name, label, instructions } = props;
+
 	const fieldProps = useFieldProps(name);
 	const renderArray = (helpers) => renderFieldArray({ props, fieldProps, helpers });
 
+	const formFieldProps = { name, label, instructions };
+	const arrayProps = { name, render: renderArray };
+
 	return (
-		<FormField label={label} name={name}>
-			<FieldArray name={name} render={renderArray} />
+		<FormField {...formFieldProps}>
+			<FieldArray {...arrayProps} />
 		</FormField>
 	);
 }
