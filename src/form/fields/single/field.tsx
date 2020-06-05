@@ -35,7 +35,7 @@ function renderLabel(props: FormFieldProps) {
 	const { name, label, instructions } = props;
 
 	function openInstructions() {
-		Modal.info({ title: label, content: instructions });
+		Modal.info({ width: 800, title: label, content: instructions });
 	}
 
 	if (!label) {
