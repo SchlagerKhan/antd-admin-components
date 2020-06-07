@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Table, TableProps, AntTableProps, TableActionShortcut } from '../../table';
+import { Table, TableProps, TableActionShortcut } from '../../table';
 import { FormProps } from '../../form';
 import { formPrompt } from '../../prompt';
 

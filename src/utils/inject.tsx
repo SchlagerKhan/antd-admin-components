@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Col, Typography, Icon, Button, Dropdown, Steps, Card, Spin, Progress, Avatar } from 'antd';
 import { DatePicker, TimePicker, Input, Slider, Rate } from 'formik-antd';
 
+import { LoadingButton } from '../components';
 import { Select } from '../input';
 
 const { Text, Title, Paragraph } = Typography;
@@ -13,6 +14,7 @@ export function injectAntIntoStyledComponents() {
 
 	// General
 	styled.Button = styled(Button);
+	styled.LoadingButton = styled(LoadingButton);
 	styled.Icon = styled(Icon);
 
 	// Typography

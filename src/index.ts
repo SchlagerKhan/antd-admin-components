@@ -2,6 +2,7 @@ import * as Colors from '@ant-design/colors';
 
 export { Colors };
 
+export * from './components';
 export * from './auth';
 export * from './input';
 export * from './form';
