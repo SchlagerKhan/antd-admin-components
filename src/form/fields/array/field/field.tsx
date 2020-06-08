@@ -5,8 +5,7 @@ import { FieldArray } from 'formik';
 
 import styled from 'styled-components';
 
-import { Button } from 'antd';
-
+import { LoadingButton } from '../../../../components';
 import { useFieldProps } from '../../../../utils';
 import { FormField } from '../../single';
 import { FormArrayFieldProps, FormArrayRenderListOpts } from './types';
@@ -16,7 +15,7 @@ const Wrapper = styled.div`
 	margin-bottom: 6px;
 `;
 
-const AddButton = styled(Button).attrs({
+const AddButton = styled(LoadingButton).attrs({
 	icon: 'plus',
 	children: 'Add',
 	htmlType: 'button',

@@ -4,10 +4,11 @@ import { useParams, useHistory } from 'react-router-dom';
 import useAsyncCall from 'use-async-call';
 
 import { useFormik, FormikConfig } from 'formik';
-import { Skeleton, PageHeader as AntPageHeader, Button, message } from 'antd';
+import { Skeleton, PageHeader as AntPageHeader, message } from 'antd';
 
 import styled from 'styled-components';
 
+import { LoadingButton } from '../../components';
 import { Form, FormProps } from '../../form';
 
 interface FieldFnOpts {
@@ -40,14 +41,16 @@ function getExtra(formik) {
 	const onReset = () => formik.resetForm();
 	const onSubmit = () => formik.submitForm();
 
-	return [
-		<Button key='reset' ghost onClick={onReset}>
-			Reset
-		</Button>,
-		<Button key='submit' onClick={onSubmit}>
-			Save
-		</Button>,
-	];
+	return (
+		<>
+			<LoadingButton ghost onClick={onReset}>
+				Reset
+			</LoadingButton>
+			<LoadingButton key='submit' onClick={onSubmit}>
+				Save
+			</LoadingButton>
+		</>
+	);
 }
 
 function createOnSubmit(onSave) {
