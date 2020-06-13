@@ -20,6 +20,13 @@ export interface AppPageProps {
 	renderRoutes?: (items: PageItems) => JSX.Element;
 }
 
+function getRoutes(items: PageItems) {
+	return items
+		.map((item) => (item.items ? getRoutes(item.items) : item))
+		.flat(Infinity)
+		.filter((item) => item.component);
+}
+
 /* RENDERING */
 function defaultRenderHeader() {
 	return <p>Header</p>;
@@ -30,10 +37,7 @@ function defaultRenderMenu(items: PageItems) {
 }
 
 function defaultRenderRoutes(items: PageItems) {
-	const routes = items
-		.map((item) => item.items || item)
-		.flat(2)
-		.filter((item) => item.component);
+	const routes = getRoutes(items);
 
 	return (
 		<Switch>
