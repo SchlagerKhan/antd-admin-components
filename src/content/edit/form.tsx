@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import useAsyncCall from 'use-async-call';
 
 import { useFormik, FormikConfig } from 'formik';
-import { Skeleton, PageHeader as AntPageHeader, message } from 'antd';
+import { PageHeader as AntPageHeader, message, Spin } from 'antd';
 
 import styled from 'styled-components';
 
@@ -107,7 +107,7 @@ export function EditContentForm(props: EditContentFormProps) {
 	const { data, loading } = state;
 
 	if (loading) {
-		return <Skeleton />;
+		return <Spin spinning />;
 	}
 
 	if (!data) {
