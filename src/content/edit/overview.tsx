@@ -7,6 +7,7 @@ import { formPrompt } from '../../prompt';
 
 export interface EditContentOverviewProps {
 	idKey?: TableProps['rowKey'];
+	loading?: boolean;
 
 	columns: TableProps['columns'];
 	data: TableProps['dataSource'];
@@ -34,7 +35,7 @@ function createOnAdd(props: EditContentOverviewProps) {
 }
 
 export function EditContentOverview(props: EditContentOverviewProps) {
-	const { idKey, columns, data, rootPath: root, onDelete, tableProps: $tableProps } = props;
+	const { idKey, loading, columns, data, rootPath: root, onDelete, tableProps: $tableProps } = props;
 	const history = useHistory();
 
 	function onEdit(row) {
@@ -42,8 +43,9 @@ export function EditContentOverview(props: EditContentOverviewProps) {
 		history.push(path);
 	}
 
-	const tableProps = {
+	const tableProps: TableProps = {
 		...$tableProps,
+		loading,
 		rowKey: idKey,
 		dataSource: data,
 		columns,
