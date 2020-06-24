@@ -27,7 +27,7 @@
 		"test": "npx jest",
 		"clean": "rm -rf lib",
 		"build": "npx tsc",
-		"deploy": "yarn clean && yarn build && yarn test && yarn publish"
+		"deploy": "yarn clean && yarn build && yarn test && yarn publish && git push --follow-tags"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.7.0",
