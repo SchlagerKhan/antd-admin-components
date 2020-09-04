@@ -77,7 +77,7 @@
 	"dependencies": {
 		"@ant-design/colors": "^3.2.2",
 		"formik-antd": "^1.6.0",
-		"markdown-to-jsx": "^6.10.3",
+		"markdown-to-jsx": "^6.11.4",
 		"use-async-call": "^3.4.1",
 		"use-call": "^3.0.0"
 	}
